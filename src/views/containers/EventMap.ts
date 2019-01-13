@@ -59,13 +59,13 @@ const enhancer = compose<ComponentProps, PublicProps>(
 // Sub functions for Enhancer(redux connection)
 function mapStateToProps(
   state: ReduxRootState,
-  { maxMarkerVisibleCount }: OwnProps
+  { maxMarkerVisibleCount, mapRef }: OwnProps
 ) {
   return {
-    eventGroupListByPosition: getGroupedEventsByPointWithLimit(
-      state,
-      maxMarkerVisibleCount
-    ),
+    eventGroupListByPosition: getGroupedEventsByPointWithLimit(state, {
+      maxCount: maxMarkerVisibleCount,
+      zoomLevel: mapRef.current ? mapRef.current.getZoom() : DEFAULT_ZOOM
+    }),
     previousFetchingParams: state.tennisEvents.fetchingParams
   };
 }

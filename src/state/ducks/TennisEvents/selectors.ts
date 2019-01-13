@@ -13,14 +13,25 @@ export const getFilterringEvents = createSelector(
   }
 );
 
-export const getGroupedEventsByPoint = createSelector(
+export const getGroupedEventsByNearyPoint = createSelector(
   getFilterringEvents,
-  events => toGroupObjectsByKey(events, '_geoloc', geoloc => geoloc.toString())
+  (state: any, { zoomLevel }: { zoomLevel: number }) => zoomLevel,
+  (events, zoomLevel) => {
+    // 同一位置毎にグループ化させて地図にマーカー表示させたいが
+    // 元データの位置座標が同じ場所なのに微妙に一致しない場合が多々あるので
+    // 地図の表示倍率によってある程度丸めた座標値にてグループ化させる。
+    const n = getFractionDigitsForRounding(zoomLevel);
+    return toGroupObjectsByKey(
+      events,
+      '_geoloc',
+      ({ lat, lng }) => `(${lat.toFixed(n)},${lng.toFixed(n)})`
+    );
+  }
 );
 
 export const getGroupedEventsByPointWithLimit = createSelector(
-  getGroupedEventsByPoint,
-  (state: any, maxCount: number) => maxCount,
+  getGroupedEventsByNearyPoint,
+  (state: any, { maxCount }: { maxCount: number }) => maxCount,
   (groupedEvents, maxCount) =>
     Object.keys(groupedEvents)
       .slice(0, maxCount)
@@ -50,4 +61,12 @@ function isMatchedFilter(
     if (!event[key].includes(filter[key])) return false;
   }
   return true;
+}
+
+function getFractionDigitsForRounding(zoomLevel: number) {
+  console.log(`zoomLevel: ${zoomLevel}`);
+  if (zoomLevel <= 8) return 0;
+  if (zoomLevel <= 10) return 1;
+  if (zoomLevel <= 15) return 2;
+  return 3;
 }
