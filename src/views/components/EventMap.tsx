@@ -17,7 +17,14 @@ export default function eventMap({
     <GoogleMap ref={mapRef} {...mapProps}>
       {Object.keys(eventGroupListByPosition).map(key => {
         const events = eventGroupListByPosition[key];
-        return <Marker key={key} position={events[0]._geoloc} />;
+        return (
+          <Marker
+            key={key}
+            position={events[0]._geoloc}
+            animation={google.maps.Animation.DROP}
+            label={{ text: String(events.length) }}
+          />
+        );
       })}
     </GoogleMap>
   );
