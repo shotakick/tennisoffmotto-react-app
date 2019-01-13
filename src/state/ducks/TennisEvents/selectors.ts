@@ -47,7 +47,7 @@ function isMatchedFilter(
   for (const key of Object.keys(filter)) {
     if (!filter[key]) continue;
     if (!event[key]) return false;
-    if (!event[key].includes(filter)) return false;
+    if (!event[key].includes(filter[key])) return false;
   }
   return true;
 }

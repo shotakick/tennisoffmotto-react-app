@@ -14,11 +14,11 @@ class App extends React.Component {
         <FetchEventsButton content="イベント取得" />
         <FilterEventsButton content="男性のみ" filter={{ sex: '男性' }} />
         <FilterEventsButton
-          className="ui disabled"
+          // className="ui disabled"
           content="女性のみ"
           filter={{ sex: '女性' }}
         />
-        <EventMap maxMarkerVisibleCount={20} />
+        <EventMap maxMarkerVisibleCount={100} />
         <EventList header="イベントリスト" />
       </div>
     );

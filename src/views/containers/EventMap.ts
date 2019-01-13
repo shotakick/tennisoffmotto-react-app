@@ -24,7 +24,7 @@ import EventMap, {
 } from '../components/EventMap';
 
 // Constants
-const DELAY_AMOUNT_FOR_FETCHING_START = 800;
+const DELAY_AMOUNT_FOR_FETCHING_START = 500;
 const DEFAULT_CENTER_TOKYO = { lat: 35.689614, lng: 139.691585 };
 const DEFAULT_ZOOM = 14;
 

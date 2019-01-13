@@ -7,7 +7,7 @@ interface TennisEventInfoJson {
   title: string;
   organizer: string;
   sex: string;
-  _geoloc: { lat: number; lng: number };
+  _geoloc: google.maps.LatLngLiteral;
   placeName: string;
   prefecture: string;
   date: { _seconds: number };
@@ -19,7 +19,6 @@ interface TennisEventInfoJson {
   detail?: string;
 }
 interface ConversionTypes {
-  _geoloc: google.maps.LatLng;
   date: Date;
   limitDate: Date;
 }
@@ -70,14 +69,8 @@ function convertJsonToClientFormat(
   hits: TennisEventInfoJson[]
 ): TennisEventInfo[] {
   return hits.map(hit => {
-    const {
-      _geoloc: { lat, lng },
-      date,
-      limitDate,
-      ...rest
-    } = hit;
+    const { date, limitDate, ...rest } = hit;
     return {
-      _geoloc: new google.maps.LatLng(lat, lng),
       date: new Date(date._seconds),
       limitDate: new Date(limitDate._seconds),
       ...rest
