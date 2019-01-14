@@ -32,10 +32,13 @@ export const getGroupedEventsByNearyPoint = createSelector(
 export const getGroupedEventsByPointWithLimit = createSelector(
   getGroupedEventsByNearyPoint,
   (state: any, { maxCount }: { maxCount: number }) => maxCount,
-  (groupedEvents, maxCount) =>
-    Object.keys(groupedEvents)
+  (srcList, maxCount) => {
+    const newList: typeof srcList = {};
+    Object.keys(srcList)
       .slice(0, maxCount)
-      .map(key => groupedEvents[key])
+      .forEach(key => (newList[key] = srcList[key]));
+    return newList;
+  }
 );
 
 export const getFilterName = createSelector(
