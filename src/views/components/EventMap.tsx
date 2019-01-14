@@ -8,6 +8,7 @@ export type EventMapProps = {
   eventGroupListByPosition: { [key: string]: TennisEventInfo[] };
   infoWindowOpenKey?: string;
   handleOnClickMarker?: (key: string) => void;
+  handleOnClickMap?: () => void;
 } & GoogleMapProps;
 
 export const eventMap: React.FC<EventMapProps> = ({
@@ -15,12 +16,10 @@ export const eventMap: React.FC<EventMapProps> = ({
   eventGroupListByPosition,
   infoWindowOpenKey,
   handleOnClickMarker,
+  handleOnClickMap,
   ...mapProps
 }) => (
-  <GoogleMap
-    ref={mapRef}
-    {...mapProps}
-  >
+  <GoogleMap ref={mapRef} onClick={handleOnClickMap} {...mapProps}>
     {Object.keys(eventGroupListByPosition).map(key => {
       const onClick = () => handleOnClickMarker && handleOnClickMarker(key);
       const events = eventGroupListByPosition[key];

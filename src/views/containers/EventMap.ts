@@ -53,11 +53,15 @@ type PrivateProps = Pick<
 type PublicProps = Omit<OwnProps, keyof PrivateProps>;
 type LocalProps = Pick<ComponentProps, 'mapRef'>;
 type LStateProps = Pick<ComponentProps, 'infoWindowOpenKey'>;
-type LStateHanlerProps = Pick<ComponentProps, 'handleOnClickMarker'>;
+type LStateHanlerProps = Pick<
+  ComponentProps,
+  'handleOnClickMarker' | 'handleOnClickMap'
+>;
 type StateProps = Pick<
   OwnProps,
   'eventGroupListByPosition' | 'previousFetchingParams'
 >;
+type DispatchProps = Pick<OwnProps, 'onIdle' | 'onBoundsChanged'>;
 type OverriddenProps = ReturnType<typeof overrideGoogleMapDefaultProps>;
 
 // Sub functions for Enhancer(redux connection)
@@ -134,7 +138,12 @@ const enhancer = compose<ComponentProps, PublicProps>(
     { infoWindowOpenKey: undefined },
     {
       handleOnClickMarker: (state, props) => key => ({
+        ...state,
         infoWindowOpenKey: state.infoWindowOpenKey === key ? undefined : key
+      }),
+      handleOnClickMap: (state, props) => () => ({
+        ...state,
+        infoWindowOpenKey: undefined
       })
     }
   ),
