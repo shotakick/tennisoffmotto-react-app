@@ -10,7 +10,13 @@ import {
   WithScriptjsProps
 } from 'react-google-maps';
 import { connect } from 'react-redux';
-import { compose, Omit, pure, setDisplayName, withProps } from 'recompose';
+import {
+  compose,
+  Omit,
+  pure,
+  setDisplayName,
+  withProps,
+} from 'recompose';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ReduxRootState } from 'state/ducks';
 import {
@@ -31,24 +37,35 @@ const DEFAULT_ZOOM = 14;
 // Types
 type OwnProps = ComponentProps & {
   previousFetchingParams: FetchingParams;
+  maxMarkerVisibleCount: number;
 };
-type PrivateProps = Pick<OwnProps, keyof OverriddenGoogleMapProps | 'mapRef'>;
-type PublicProps = Omit<OwnProps, keyof PrivateProps | keyof StateProps>;
-type StateProps = ReturnType<typeof mapStateToProps>;
-type OverriddenGoogleMapProps = ReturnType<
-  typeof overrideGoogleMapDefaultProps
+type PrivateProps = Pick<
+  OwnProps,
+  | keyof LocalProps
+  | keyof LStateProps
+  | keyof StateProps
+  | keyof OverriddenProps
 >;
+type PublicProps = Omit<OwnProps, keyof PrivateProps>;
+type LocalProps = Pick<ComponentProps, 'mapRef'>;
+type LStateProps = Pick<ComponentProps, 'infoWindowOpenKey'>;
+type StateProps = Pick<
+  OwnProps,
+  'eventGroupListByPosition' | 'previousFetchingParams'
+>;
+type DispatchProps = Pick<OwnProps, 'onIdle' | 'onBoundsChanged'>;
+type OverriddenProps = ReturnType<typeof overrideGoogleMapDefaultProps>;
 
 // Create Enhancer
 const enhancer = compose<ComponentProps, PublicProps>(
   setDisplayName('EnhancedEventMap'),
-  withProps({
-    mapRef: React.createRef<GoogleMap>()
-  }),
   withProps(getInitialGoogleMapProps()),
   withProps(overrideGoogleMapDefaultProps()),
   withScriptjs,
   withGoogleMap,
+  withProps<LocalProps, ComponentProps>({
+    mapRef: React.createRef<GoogleMap>()
+  }),
   pure,
   connect(
     mapStateToProps,
@@ -60,7 +77,7 @@ const enhancer = compose<ComponentProps, PublicProps>(
 function mapStateToProps(
   state: ReduxRootState,
   { maxMarkerVisibleCount, mapRef }: OwnProps
-) {
+): StateProps {
   return {
     eventGroupListByPosition: getGroupedEventsByPointWithLimit(state, {
       maxCount: maxMarkerVisibleCount,
@@ -73,7 +90,7 @@ function mapStateToProps(
 function mapDispatchToProps(
   dispatch: Dispatch<Action<any>>,
   ownProps: OwnProps
-): Pick<GoogleMapProps, 'onIdle' | 'onBoundsChanged'> {
+): DispatchProps {
   return bindActionCreators(
     {
       onIdle: () =>
