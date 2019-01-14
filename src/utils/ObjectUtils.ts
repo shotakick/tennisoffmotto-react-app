@@ -15,7 +15,5 @@ export function toGroupObjectsByKey<T, K extends keyof T>(
     groupList[key].push(target);
   });
 
-  console.log(Object.keys(groupList).length);
-
   return groupList;
 }
