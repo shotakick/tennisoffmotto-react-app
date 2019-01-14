@@ -15,7 +15,9 @@ import {
   Omit,
   pure,
   setDisplayName,
+  StateHandlerMap,
   withProps,
+  withStateHandlers
 } from 'recompose';
 import { bindActionCreators, Dispatch } from 'redux';
 import { ReduxRootState } from 'state/ducks';
@@ -43,12 +45,14 @@ type PrivateProps = Pick<
   OwnProps,
   | keyof LocalProps
   | keyof LStateProps
+  | keyof LStateHanlerProps
   | keyof StateProps
   | keyof OverriddenProps
 >;
 type PublicProps = Omit<OwnProps, keyof PrivateProps>;
 type LocalProps = Pick<ComponentProps, 'mapRef'>;
 type LStateProps = Pick<ComponentProps, 'infoWindowOpenKey'>;
+type LStateHanlerProps = Pick<ComponentProps, 'handleOnClickMarker'>;
 type StateProps = Pick<
   OwnProps,
   'eventGroupListByPosition' | 'previousFetchingParams'
@@ -66,6 +70,18 @@ const enhancer = compose<ComponentProps, PublicProps>(
   withProps<LocalProps, ComponentProps>({
     mapRef: React.createRef<GoogleMap>()
   }),
+  withStateHandlers<
+    LStateProps,
+    LStateHanlerProps & StateHandlerMap<LStateProps>,
+    ComponentProps
+  >(
+    { infoWindowOpenKey: undefined },
+    {
+      handleOnClickMarker: (state, props) => key => ({
+        infoWindowOpenKey: state.infoWindowOpenKey === key ? undefined : key
+      })
+    }
+  ),
   pure,
   connect(
     mapStateToProps,
