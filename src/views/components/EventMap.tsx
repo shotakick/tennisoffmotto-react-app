@@ -11,6 +11,8 @@ export type EventMapProps = {
   handleOnClickMap?: () => void;
 } & GoogleMapProps;
 
+const ballIcon: google.maps.Icon = { url: 'images/tennis-ball.png' };
+
 export const eventMap: React.FC<EventMapProps> = ({
   mapRef,
   eventGroupListByPosition,
@@ -29,6 +31,7 @@ export const eventMap: React.FC<EventMapProps> = ({
           position={events[0]._geoloc}
           animation={google.maps.Animation.DROP}
           label={{ text: String(events.length) }}
+          icon={ballIcon}
           onClick={onClick}
         >
           {infoWindowOpenKey === key && (
