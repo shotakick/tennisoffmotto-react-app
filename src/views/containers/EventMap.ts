@@ -39,36 +39,34 @@ const DEFAULT_ZOOM = 14;
 
 // Types
 type OwnProps = ComponentProps & {
-  previousFetchingParams: FetchingParams;
   maxMarkerVisibleCount: number;
 };
 type PrivateProps = Pick<
   OwnProps,
-  | keyof LocalProps
+  | keyof GoogleMapProps
   | keyof LStateProps
   | keyof LStateHanlerProps
   | keyof StateProps
-  | keyof OverriddenProps
+  // | keyof DispatchProps
+  | 'mapRef'
 >;
 type PublicProps = Omit<OwnProps, keyof PrivateProps>;
-type LocalProps = Pick<ComponentProps, 'mapRef'>;
 type LStateProps = Pick<ComponentProps, 'infoWindowOpenKey'>;
 type LStateHanlerProps = Pick<
   ComponentProps,
   'handleOnClickMarker' | 'handleOnClickMap'
 >;
-type StateProps = Pick<
-  OwnProps,
-  'eventGroupListByPosition' | 'previousFetchingParams'
->;
-type DispatchProps = Pick<OwnProps, 'onIdle' | 'onBoundsChanged'>;
-type OverriddenProps = ReturnType<typeof overrideGoogleMapDefaultProps>;
+type StateProps = Pick<ComponentProps, 'eventGroupListByPosition'>;
+// type DispatchProps = Pick<ComponentProps, 'onIdle' | 'onBoundsChanged'>;
+type OwnState = StateProps & {
+  previousFetchingParams: FetchingParams;
+};
 
 // Sub functions for Enhancer(redux connection)
 const mapStateToProps = (
   state: ReduxRootState,
   { maxMarkerVisibleCount, mapRef }: OwnProps
-): StateProps => ({
+): OwnState => ({
   eventGroupListByPosition: getGroupedEventsByPointWithLimit(state, {
     maxCount: maxMarkerVisibleCount,
     zoomLevel: mapRef.current ? mapRef.current.getZoom() : DEFAULT_ZOOM
@@ -76,21 +74,29 @@ const mapStateToProps = (
   previousFetchingParams: state.tennisEvents.fetchingParams
 });
 
-const mapDispatchToProps = (
-  dispatch: Dispatch<Action<any>>,
+const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({ dispatch });
+
+const mergeProps = (
+  { previousFetchingParams, ...stateProps }: OwnState,
+  { dispatch }: { dispatch: Dispatch<Action<any>> },
   ownProps: OwnProps
-): DispatchProps => ({
+): OwnProps => ({
+  ...ownProps,
+  ...stateProps,
   onIdle: () =>
     dispatch(
-      actionCreators.requestFetchTennisEvents(getNewFetchingParams(ownProps))
+      actionCreators.requestFetchTennisEvents(
+        getNewFetchingParams(previousFetchingParams, ownProps)
+      )
     ),
   onBoundsChanged: () => dispatch(actionCreators.cancelFetchingTennisEvents())
 });
 
 const getNewFetchingParams = (
+  previousFetchingParams: FetchingParams,
   ownProps: OwnProps
 ): RequestFetchTennisEventsPayload => ({
-  ...ownProps.previousFetchingParams,
+  ...previousFetchingParams,
   bounds: (ownProps.mapRef.current as GoogleMap).getBounds().toJSON(),
   fetchingDelay: DELAY_AMOUNT_FOR_FETCHING_START
 });
@@ -127,7 +133,7 @@ const enhancer = compose<ComponentProps, PublicProps>(
   withProps(overrideGoogleMapDefaultProps()),
   withScriptjs,
   withGoogleMap,
-  withProps<LocalProps, ComponentProps>({
+  withProps({
     mapRef: React.createRef<GoogleMap>()
   }),
   withStateHandlers<
@@ -150,7 +156,8 @@ const enhancer = compose<ComponentProps, PublicProps>(
   pure,
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
+    mergeProps
   )
 );
 
