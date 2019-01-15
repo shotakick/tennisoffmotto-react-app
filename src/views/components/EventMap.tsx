@@ -1,6 +1,8 @@
 import { TennisEventInfo } from 'client/TennisEvents';
 import * as React from 'react';
 import { GoogleMap, GoogleMapProps, Marker } from 'react-google-maps';
+import AlgoliaLogo from './common/AlgoliaLogo';
+import MapControl from './common/MapControl';
 import EventInfoWindow from './EventInfoWindow';
 
 export type EventMapProps = {
@@ -40,6 +42,9 @@ export const eventMap: React.FC<EventMapProps> = ({
         </Marker>
       );
     })}
+    <MapControl position={google.maps.ControlPosition.BOTTOM_LEFT}>
+      <AlgoliaLogo />
+    </MapControl>
   </GoogleMap>
 );
 export default eventMap;
