@@ -33,7 +33,7 @@ import EventMap, {
 } from '../components/EventMap';
 
 // Constants
-const DELAY_AMOUNT_FOR_FETCHING_START = 500;
+const DELAY_AMOUNT_FOR_FETCHING_START = 800;
 const DEFAULT_CENTER_TOKYO = { lat: 35.689614, lng: 139.691585 };
 const DEFAULT_ZOOM = 14;
 
@@ -119,9 +119,7 @@ const getInitialGoogleMapProps = ():
   })
 });
 
-const overrideGoogleMapDefaultProps = (): Required<
-  Pick<GoogleMapProps, 'defaultCenter' | 'defaultZoom' | 'defaultOptions'>
-> => ({
+const overrideGoogleMapDefaultProps = (): GoogleMapProps => ({
   defaultCenter: DEFAULT_CENTER_TOKYO,
   defaultZoom: DEFAULT_ZOOM,
   defaultOptions: {
