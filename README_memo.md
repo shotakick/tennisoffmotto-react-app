@@ -12,6 +12,8 @@
 [app]: https://tennisoffmotto.firebaseapp.com/
 
 # 技術スタック
+勉強を兼ねていたのでオーバースペック気味の技術選定。
+
 * Language
   * [TypeScript](https://www.typescriptlang.org/)
 

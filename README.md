@@ -8,6 +8,8 @@
   * 私的利用を目的にスクレイピングにより情報収集しているため非公開
 
 # 技術スタック
+勉強を兼ねていたのでオーバースペック気味の技術選定。
+
 * Language
   * [TypeScript](https://www.typescriptlang.org/)
 
