@@ -120,10 +120,18 @@ const getInitialGoogleMapProps = ():
 });
 
 const overrideGoogleMapDefaultProps = (): Required<
-  Pick<GoogleMapProps, 'defaultCenter' | 'defaultZoom'>
+  Pick<GoogleMapProps, 'defaultCenter' | 'defaultZoom' | 'defaultOptions'>
 > => ({
   defaultCenter: DEFAULT_CENTER_TOKYO,
-  defaultZoom: DEFAULT_ZOOM
+  defaultZoom: DEFAULT_ZOOM,
+  defaultOptions: {
+    mapTypeControl: false,
+    streetViewControl: false,
+    zoomControl: false,
+    scaleControl: false,
+    rotateControl: false,
+    gestureHandling: 'greedy'
+  }
 });
 
 // Create Enhancer
