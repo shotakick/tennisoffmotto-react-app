@@ -108,9 +108,7 @@ const getInitialGoogleMapProps = ():
   googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
     process.env.REACT_APP_GOOGLE_MAP_API_KEY
   }`,
-  loadingElement: React.createElement('div', {
-    style: { height: '100%' }
-  }),
+  loadingElement: React.createElement('div'),
   containerElement: React.createElement('div', {
     style: { height: '100%' }
   }),
@@ -128,7 +126,7 @@ const overrideGoogleMapDefaultProps = (): GoogleMapProps => ({
     zoomControl: false,
     scaleControl: false,
     rotateControl: false,
-    gestureHandling: 'greedy'
+    gestureHandling: 'auto'
   }
 });
 
