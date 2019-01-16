@@ -71,8 +71,8 @@ function convertJsonToClientFormat(
   return hits.map(hit => {
     const { date, limitDate, ...rest } = hit;
     return {
-      date: new Date(date._seconds),
-      limitDate: new Date(limitDate._seconds),
+      date: new Date(date._seconds * 1000),
+      limitDate: new Date(limitDate._seconds * 1000),
       ...rest
     };
   });
