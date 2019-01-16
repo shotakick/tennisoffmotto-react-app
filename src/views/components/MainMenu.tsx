@@ -11,6 +11,7 @@ const menuProps: MenuProps = {
 
 const mainMenu: React.FC = () => (
   <Menu attached="top" {...menuProps}>
+    {/* <Menu attached="top" color="teal" inverted={true} stackable={true}> */}
     <Dropdown item={true} icon="content" simple={true}>
       <Dropdown.Menu>
         <Dropdown.Item>
@@ -26,7 +27,7 @@ const mainMenu: React.FC = () => (
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
-    <Menu.Menu position="right" {...menuProps}>
+    <Menu.Menu position="right">
       <div className="ui right aligned category search item">
         <div className="ui transparent icon input">
           <input className="prompt" type="text" placeholder="Search place..." />
