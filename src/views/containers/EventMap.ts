@@ -34,8 +34,6 @@ import EventMap, {
 
 // Constants
 const DELAY_AMOUNT_FOR_FETCHING_START = 800;
-const DEFAULT_CENTER_TOKYO = { lat: 35.689614, lng: 139.691585 };
-const DEFAULT_ZOOM = 14;
 
 // Types
 type OwnProps = ComponentProps & {
@@ -47,7 +45,6 @@ type PrivateProps = Pick<
   | keyof LStateProps
   | keyof LStateHanlerProps
   | keyof StateProps
-  // | keyof DispatchProps
   | 'mapRef'
 >;
 type PublicProps = Omit<OwnProps, keyof PrivateProps>;
@@ -69,7 +66,7 @@ const mapStateToProps = (
 ): OwnState => ({
   eventGroupListByPosition: getGroupedEventsByPointWithLimit(state, {
     maxCount: maxMarkerVisibleCount,
-    zoomLevel: mapRef.current ? mapRef.current.getZoom() : DEFAULT_ZOOM
+    zoomLevel: mapRef.current ? mapRef.current.getZoom() : 1
   }),
   previousFetchingParams: state.tennisEvents.fetchingParams
 });
@@ -101,10 +98,27 @@ const getNewFetchingParams = (
   fetchingDelay: DELAY_AMOUNT_FOR_FETCHING_START
 });
 
-// Sub functions for Enhancer(to GoogleMap)
-const getInitialGoogleMapProps = ():
-  | WithScriptjsProps
-  | WithGoogleMapProps => ({
+// Additional Local State and Handlers
+const withEventMapStateHandlers = withStateHandlers<
+  LStateProps,
+  LStateHanlerProps & StateHandlerMap<LStateProps>,
+  ComponentProps
+>(
+  { infoWindowOpenKey: undefined },
+  {
+    handleOnClickMarker: (state, props) => key => ({
+      ...state,
+      infoWindowOpenKey: state.infoWindowOpenKey === key ? undefined : key
+    }),
+    handleOnClickMap: (state, props) => () => ({
+      ...state,
+      infoWindowOpenKey: undefined
+    })
+  }
+);
+
+// define for GoogleMap
+const initialGoogleMapProps: WithScriptjsProps | WithGoogleMapProps = {
   googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
     process.env.REACT_APP_GOOGLE_MAP_API_KEY
   }`,
@@ -115,48 +129,18 @@ const getInitialGoogleMapProps = ():
   mapElement: React.createElement('div', {
     style: { height: '100%' }
   })
-});
-
-const overrideGoogleMapDefaultProps = (): GoogleMapProps => ({
-  defaultCenter: DEFAULT_CENTER_TOKYO,
-  defaultZoom: DEFAULT_ZOOM,
-  defaultOptions: {
-    mapTypeControl: false,
-    streetViewControl: false,
-    zoomControl: false,
-    scaleControl: false,
-    rotateControl: false,
-    gestureHandling: 'auto'
-  }
-});
+};
 
 // Create Enhancer
 const enhancer = compose<ComponentProps, PublicProps>(
   setDisplayName('EnhancedEventMap'),
-  withProps(getInitialGoogleMapProps()),
-  withProps(overrideGoogleMapDefaultProps()),
+  withProps(initialGoogleMapProps),
   withScriptjs,
   withGoogleMap,
   withProps({
     mapRef: React.createRef<GoogleMap>()
   }),
-  withStateHandlers<
-    LStateProps,
-    LStateHanlerProps & StateHandlerMap<LStateProps>,
-    ComponentProps
-  >(
-    { infoWindowOpenKey: undefined },
-    {
-      handleOnClickMarker: (state, props) => key => ({
-        ...state,
-        infoWindowOpenKey: state.infoWindowOpenKey === key ? undefined : key
-      }),
-      handleOnClickMap: (state, props) => () => ({
-        ...state,
-        infoWindowOpenKey: undefined
-      })
-    }
-  ),
+  withEventMapStateHandlers,
   pure,
   connect(
     mapStateToProps,

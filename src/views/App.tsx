@@ -2,6 +2,7 @@ import * as React from 'react';
 import './App.css';
 import MainMenu from './components/MainMenu';
 import EventMap from './containers/EventMap';
+import { initialMapOptions } from './ini/EventMap';
 
 class App extends React.Component {
   public render() {
@@ -13,7 +14,7 @@ class App extends React.Component {
           <span className="Title-text">Tennisoff.motto</span>
         </div>
         <div className="App-content">
-          <EventMap maxMarkerVisibleCount={100} />
+          <EventMap maxMarkerVisibleCount={300} {...initialMapOptions} />
         </div>
         <footer />
       </div>
