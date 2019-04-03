@@ -70,6 +70,6 @@ function getFractionDigitsForRounding(zoomLevel: number) {
   console.log(`zoomLevel: ${zoomLevel}`);
   if (zoomLevel <= 8) return 0;
   if (zoomLevel <= 10) return 1;
-  if (zoomLevel <= 12) return 2;
+  if (zoomLevel <= 15) return 2;
   return 3;
 }
