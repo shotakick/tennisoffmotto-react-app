@@ -29,7 +29,7 @@ type EventInfoWindowProps = {
   events: TennisEventInfo[];
 } & InfoWindowProps;
 
-const eventInfoWindow: React.FC<EventInfoWindowProps> = ({
+const EventInfoWindow: React.FC<EventInfoWindowProps> = ({
   events,
   ...infoWindowProps
 }) => (
@@ -67,4 +67,4 @@ const eventInfoWindow: React.FC<EventInfoWindowProps> = ({
     </div>
   </InfoWindow>
 );
-export default eventInfoWindow;
+export default EventInfoWindow;

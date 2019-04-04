@@ -4,7 +4,7 @@ const algoliaLogoStyle: React.CSSProperties = {
   marginLeft: '5px',
   marginRight: '5px'
 };
-const algoliaLogo = () => (
+const AlgoliaLogo = () => (
   <div className={'AlgoliaLogo'} style={algoliaLogoStyle}>
     <a href={'https://www.algolia.com'} target={'_blank'} rel={'noopener'}>
       <img
@@ -16,4 +16,4 @@ const algoliaLogo = () => (
     </a>
   </div>
 );
-export default algoliaLogo;
+export default AlgoliaLogo;

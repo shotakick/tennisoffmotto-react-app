@@ -6,7 +6,7 @@ export interface EventListProps {
   items: { header: string; metas: string[] }[];
 }
 
-const eventList: React.FC<EventListProps> = ({ header, items = [] }) => (
+const EventList: React.FC<EventListProps> = ({ header, items = [] }) => (
   <>
     <Header as="h2">{header}</Header>
     <Item.Group divided={true}>
@@ -25,4 +25,4 @@ const eventList: React.FC<EventListProps> = ({ header, items = [] }) => (
     </Item.Group>
   </>
 );
-export default eventList;
+export default EventList;

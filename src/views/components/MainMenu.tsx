@@ -9,7 +9,7 @@ const menuProps: MenuProps = {
   stackable: true
 };
 
-const mainMenu: React.FC = () => (
+const MainMenu: React.FC = () => (
   <Menu attached="top" {...menuProps}>
     {/* <Menu attached="top" color="teal" inverted={true} stackable={true}> */}
     <Dropdown item={true} icon="content" simple={true}>
@@ -38,4 +38,4 @@ const mainMenu: React.FC = () => (
     </Menu.Menu>
   </Menu>
 );
-export default mainMenu;
+export default MainMenu;

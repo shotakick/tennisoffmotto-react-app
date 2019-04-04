@@ -15,7 +15,7 @@ export type EventMapProps = {
 
 const ballIcon: google.maps.Icon = { url: 'images/tennis-ball.png' };
 
-const eventMap: React.FC<EventMapProps> = ({
+const EventMap: React.FC<EventMapProps> = ({
   mapRef,
   eventGroupListByPosition,
   infoWindowOpenKey,
@@ -47,4 +47,4 @@ const eventMap: React.FC<EventMapProps> = ({
     </MapControl>
   </GoogleMap>
 );
-export default eventMap;
+export default EventMap;
