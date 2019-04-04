@@ -189,7 +189,7 @@ $ npx -v
 ```bat
 $ npm instarll yarn -g
 $ yarn -v
-  1.12.3
+  1.15.2
 ```
 
 ## React CLIツール
@@ -197,7 +197,7 @@ $ yarn -v
 ```bat
 $ npm install create-react-app -g
 $ create-react-app --version
-  2.1.2
+  2.1.8
 ```
 
 # Reactアプリ環境構築
