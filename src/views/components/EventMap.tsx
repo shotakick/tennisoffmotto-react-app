@@ -1,16 +1,15 @@
 import { TennisEventInfo } from 'client/TennisEvents';
 import * as React from 'react';
-import { GoogleMap, GoogleMapProps, Marker } from 'react-google-maps';
+import { GoogleMap, GoogleMapProps } from 'react-google-maps';
 import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
 import EventInfoWindow from './EventInfoWindow';
+import EventMapMarker from './EventMapMarker';
 
 export type EventMapProps = {
   mapRef: React.RefObject<GoogleMap>;
   eventGroupListByPosition: { [key: string]: TennisEventInfo[] };
 } & GoogleMapProps;
-
-const ballIcon: google.maps.Icon = { url: 'images/tennis-ball.png' };
 
 const EventMap: React.FC<EventMapProps> = ({
   mapRef,
@@ -33,15 +32,11 @@ const EventMap: React.FC<EventMapProps> = ({
   return (
     <GoogleMap ref={mapRef} onClick={closeInfoWindow} {...mapProps}>
       {Object.keys(eventGroupListByPosition).map(key => (
-        <Marker
+        <EventMapMarker
           key={key}
-          position={eventGroupListByPosition[key][0]._geoloc}
-          animation={google.maps.Animation.DROP}
-          label={{ text: String(eventGroupListByPosition[key].length) }}
-          icon={ballIcon}
-          // If optimization, refer to https://github.com/flexport/reflective-bind
-          // tslint:disable-next-line: jsx-no-lambda
-          onClick={() => handleClickMarker(key)}
+          key_={key}
+          events={eventGroupListByPosition[key]}
+          handleClick={handleClickMarker}
         >
           {key === openedInfoWindowKey && (
             <EventInfoWindow
@@ -49,7 +44,7 @@ const EventMap: React.FC<EventMapProps> = ({
               onCloseClick={closeInfoWindow}
             />
           )}
-        </Marker>
+        </EventMapMarker>
       ))}
       <MapControl position={google.maps.ControlPosition.BOTTOM_LEFT}>
         <AlgoliaLogo />
