@@ -1,6 +1,14 @@
 import { TennisEventInfo } from 'client/TennisEvents';
 import * as React from 'react';
-import { GoogleMap, GoogleMapProps } from 'react-google-maps';
+import {
+  GoogleMap,
+  GoogleMapProps,
+  withGoogleMap,
+  WithGoogleMapProps,
+  withScriptjs,
+  WithScriptjsProps
+} from 'react-google-maps';
+import { compose, setDisplayName, withProps } from 'recompose';
 import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
 import EventInfoWindow from './EventInfoWindow';
@@ -11,7 +19,7 @@ export type EventMapProps = {
   eventGroupListByPosition: { [key: string]: TennisEventInfo[] };
 } & GoogleMapProps;
 
-const EventMap: React.FC<EventMapProps> = ({
+export const EventMap: React.FC<EventMapProps> = ({
   mapRef,
   eventGroupListByPosition,
   ...mapProps
@@ -52,4 +60,24 @@ const EventMap: React.FC<EventMapProps> = ({
     </GoogleMap>
   );
 };
-export default EventMap;
+
+// define for GoogleMap
+const initialGoogleMapProps: WithScriptjsProps | WithGoogleMapProps = {
+  googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
+    process.env.REACT_APP_GOOGLE_MAP_API_KEY
+  }`,
+  loadingElement: React.createElement('div'),
+  containerElement: React.createElement('div', {
+    style: { height: '100%' }
+  }),
+  mapElement: React.createElement('div', {
+    style: { height: '100%' }
+  })
+};
+
+export default compose<EventMapProps, EventMapProps>(
+  setDisplayName('EventMapComponent'),
+  withProps(initialGoogleMapProps),
+  withScriptjs,
+  withGoogleMap
+)(EventMap);

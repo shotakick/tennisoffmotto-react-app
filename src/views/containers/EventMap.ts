@@ -1,14 +1,7 @@
 // implemented by HOC. (recompose and react-redux)
 
 import * as React from 'react';
-import {
-  GoogleMap,
-  GoogleMapProps,
-  withGoogleMap,
-  WithGoogleMapProps,
-  withScriptjs,
-  WithScriptjsProps
-} from 'react-google-maps';
+import { GoogleMap } from 'react-google-maps';
 import { connect } from 'react-redux';
 import { compose, Omit, pure, setDisplayName, withProps } from 'recompose';
 import { Dispatch } from 'redux';
@@ -21,6 +14,8 @@ import {
 } from 'state/ducks/TennisEvents';
 import { Action } from 'typescript-fsa';
 import EventMap, {
+  // import {
+  //   EventMap,
   EventMapProps as ComponentProps
 } from '../components/EventMap';
 
@@ -28,14 +23,11 @@ import EventMap, {
 const DELAY_AMOUNT_FOR_FETCHING_START = 800;
 
 // Types
-type OwnProps = ComponentProps & {
+interface InjectedProps {
   maxMarkerVisibleCount: number;
-};
-type PrivateProps = Pick<
-  OwnProps,
-  keyof GoogleMapProps | keyof StateProps | 'mapRef'
->;
-type PublicProps = Omit<OwnProps, keyof PrivateProps>;
+}
+type OwnProps = ComponentProps & InjectedProps;
+type PublicProps = Omit<OwnProps, keyof StateProps | 'mapRef'>;
 type StateProps = Pick<ComponentProps, 'eventGroupListByPosition'>;
 // type DispatchProps = Pick<ComponentProps, 'onIdle' | 'onBoundsChanged'>;
 type OwnState = StateProps & {
@@ -68,8 +60,8 @@ const mergeProps = (
       actionCreators.requestFetchTennisEvents(
         getNewFetchingParams(previousFetchingParams, ownProps)
       )
-    ),
-  onBoundsChanged: () => dispatch(actionCreators.cancelFetchingTennisEvents())
+    )
+  // onBoundsChanged: () => dispatch(actionCreators.cancelFetchingTennisEvents())
 });
 
 const getNewFetchingParams = (
@@ -81,26 +73,9 @@ const getNewFetchingParams = (
   fetchingDelay: DELAY_AMOUNT_FOR_FETCHING_START
 });
 
-// define for GoogleMap
-const initialGoogleMapProps: WithScriptjsProps | WithGoogleMapProps = {
-  googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
-    process.env.REACT_APP_GOOGLE_MAP_API_KEY
-  }`,
-  loadingElement: React.createElement('div'),
-  containerElement: React.createElement('div', {
-    style: { height: '100%' }
-  }),
-  mapElement: React.createElement('div', {
-    style: { height: '100%' }
-  })
-};
-
 // Create Enhancer
 const enhancer = compose<ComponentProps, PublicProps>(
-  setDisplayName('EnhancedEventMap'),
-  withProps(initialGoogleMapProps),
-  withScriptjs,
-  withGoogleMap,
+  setDisplayName('EventMapContainer'),
   withProps({
     mapRef: React.createRef<GoogleMap>()
   }),
