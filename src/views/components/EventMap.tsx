@@ -8,9 +8,6 @@ import EventInfoWindow from './EventInfoWindow';
 export type EventMapProps = {
   mapRef: React.RefObject<GoogleMap>;
   eventGroupListByPosition: { [key: string]: TennisEventInfo[] };
-  infoWindowOpenKey?: string;
-  handleOnClickMarker?: (key: string) => void;
-  handleOnClickMap?: () => void;
 } & GoogleMapProps;
 
 const ballIcon: google.maps.Icon = { url: 'images/tennis-ball.png' };
@@ -18,33 +15,46 @@ const ballIcon: google.maps.Icon = { url: 'images/tennis-ball.png' };
 const EventMap: React.FC<EventMapProps> = ({
   mapRef,
   eventGroupListByPosition,
-  infoWindowOpenKey,
-  handleOnClickMarker,
-  handleOnClickMap,
   ...mapProps
-}) => (
-  <GoogleMap ref={mapRef} onClick={handleOnClickMap} {...mapProps}>
-    {Object.keys(eventGroupListByPosition).map(key => {
-      const onClick = () => handleOnClickMarker && handleOnClickMarker(key);
-      const events = eventGroupListByPosition[key];
-      return (
+}) => {
+  const [openedInfoWindowKey, setOpenedInfoWindowKey] = React.useState<
+    string | null
+  >(null);
+  const handleClickMarker = React.useCallback(
+    (key: string) =>
+      setOpenedInfoWindowKey(prev => (prev === key ? null : key)),
+    [setOpenedInfoWindowKey]
+  );
+  const closeInfoWindow = React.useCallback(
+    () => setOpenedInfoWindowKey(null),
+    [setOpenedInfoWindowKey]
+  );
+
+  return (
+    <GoogleMap ref={mapRef} onClick={closeInfoWindow} {...mapProps}>
+      {Object.keys(eventGroupListByPosition).map(key => (
         <Marker
           key={key}
-          position={events[0]._geoloc}
+          position={eventGroupListByPosition[key][0]._geoloc}
           animation={google.maps.Animation.DROP}
-          label={{ text: String(events.length) }}
+          label={{ text: String(eventGroupListByPosition[key].length) }}
           icon={ballIcon}
-          onClick={onClick}
+          // If optimization, refer to https://github.com/flexport/reflective-bind
+          // tslint:disable-next-line: jsx-no-lambda
+          onClick={() => handleClickMarker(key)}
         >
-          {infoWindowOpenKey === key && (
-            <EventInfoWindow events={events} onCloseClick={onClick} />
+          {key === openedInfoWindowKey && (
+            <EventInfoWindow
+              events={eventGroupListByPosition[key]}
+              onCloseClick={closeInfoWindow}
+            />
           )}
         </Marker>
-      );
-    })}
-    <MapControl position={google.maps.ControlPosition.BOTTOM_LEFT}>
-      <AlgoliaLogo />
-    </MapControl>
-  </GoogleMap>
-);
+      ))}
+      <MapControl position={google.maps.ControlPosition.BOTTOM_LEFT}>
+        <AlgoliaLogo />
+      </MapControl>
+    </GoogleMap>
+  );
+};
 export default EventMap;

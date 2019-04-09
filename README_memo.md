@@ -29,8 +29,7 @@
       * [React Router](https://github.com/ReactTraining/react-router)
     * High-order Component
       * Recompose (deprecated feature)
-    * Upcoming Features
-      * ~~React Hooks~~
+    * React Hooks
 
 * State Management
   * [Redux](https://0-to-1.github.io/redux/)
@@ -211,7 +210,7 @@ $ cd tennisoffmotto-react-app
 ## 静的解析ツールおよびフォーマッタの設定
 ```TSLint```、```Prettier```、および連携用のツールをインストールする。
 ```bat
-$ yarn add -D tslint prettier tslint-plugin-prettier tslint-config-prettier tslint-config-airbnb
+$ yarn add -D tslint prettier tslint-plugin-prettier tslint-config-prettier tslint-config-airbnb tslint-react-hooks
 ```
 
 * ```slint.json```

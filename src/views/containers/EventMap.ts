@@ -10,15 +10,7 @@ import {
   WithScriptjsProps
 } from 'react-google-maps';
 import { connect } from 'react-redux';
-import {
-  compose,
-  Omit,
-  pure,
-  setDisplayName,
-  StateHandlerMap,
-  withProps,
-  withStateHandlers
-} from 'recompose';
+import { compose, Omit, pure, setDisplayName, withProps } from 'recompose';
 import { Dispatch } from 'redux';
 import { ReduxRootState } from 'state/ducks';
 import {
@@ -41,18 +33,9 @@ type OwnProps = ComponentProps & {
 };
 type PrivateProps = Pick<
   OwnProps,
-  | keyof GoogleMapProps
-  | keyof LStateProps
-  | keyof LStateHanlerProps
-  | keyof StateProps
-  | 'mapRef'
+  keyof GoogleMapProps | keyof StateProps | 'mapRef'
 >;
 type PublicProps = Omit<OwnProps, keyof PrivateProps>;
-type LStateProps = Pick<ComponentProps, 'infoWindowOpenKey'>;
-type LStateHanlerProps = Pick<
-  ComponentProps,
-  'handleOnClickMarker' | 'handleOnClickMap'
->;
 type StateProps = Pick<ComponentProps, 'eventGroupListByPosition'>;
 // type DispatchProps = Pick<ComponentProps, 'onIdle' | 'onBoundsChanged'>;
 type OwnState = StateProps & {
@@ -98,25 +81,6 @@ const getNewFetchingParams = (
   fetchingDelay: DELAY_AMOUNT_FOR_FETCHING_START
 });
 
-// Additional Local State and Handlers
-const withEventMapStateHandlers = withStateHandlers<
-  LStateProps,
-  LStateHanlerProps & StateHandlerMap<LStateProps>,
-  ComponentProps
->(
-  { infoWindowOpenKey: undefined },
-  {
-    handleOnClickMarker: (state, props) => key => ({
-      ...state,
-      infoWindowOpenKey: state.infoWindowOpenKey === key ? undefined : key
-    }),
-    handleOnClickMap: (state, props) => () => ({
-      ...state,
-      infoWindowOpenKey: undefined
-    })
-  }
-);
-
 // define for GoogleMap
 const initialGoogleMapProps: WithScriptjsProps | WithGoogleMapProps = {
   googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${
@@ -140,7 +104,6 @@ const enhancer = compose<ComponentProps, PublicProps>(
   withProps({
     mapRef: React.createRef<GoogleMap>()
   }),
-  withEventMapStateHandlers,
   pure,
   connect(
     mapStateToProps,
