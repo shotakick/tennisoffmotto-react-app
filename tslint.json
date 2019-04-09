@@ -26,7 +26,7 @@
     "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case"],
     "ordered-imports": true,
     // "trailing-comma": false,
-    // "object-shorthand-properties-first":false,
+    "object-shorthand-properties-first":false,
     "no-boolean-literal-compare": false,
     "react-hooks-nesting": "error"
   }
