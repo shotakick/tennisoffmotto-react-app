@@ -1,12 +1,11 @@
-import { TennisEventInfo } from 'client/TennisEvents';
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import { Button, ButtonProps } from 'semantic-ui-react';
-import { actionCreators } from 'state/ducks/TennisEvents';
+import { actionCreators, ViewingFilter } from 'state/ducks/TennisEvents';
 import { Action } from 'typescript-fsa';
 
 interface OwnProps {
-  filter?: Partial<TennisEventInfo>;
+  filter: ViewingFilter;
 }
 
 const mapStateToProps = () => ({});
@@ -14,7 +13,7 @@ const mapStateToProps = () => ({});
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>, props: OwnProps) =>
   bindActionCreators(
     {
-      onClick: () => actionCreators.setFetchingParams({ filter: props.filter })
+      onClick: () => actionCreators.setViewingFilter(props.filter)
     },
     dispatch
   );

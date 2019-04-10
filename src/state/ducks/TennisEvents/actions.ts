@@ -1,12 +1,12 @@
 import { actionCreatorFactory } from 'typescript-fsa';
-import { FetchedResult, FetchingParams } from './types';
+import { FetchedResult, FetchingParams, ViewingFilter } from './types';
 
 // Action types
 export enum ActionType {
   REQUEST_FETCH_TENNIS_EVENTS = 'REQUEST_FETCH_TENNIS_EVENTS',
   ASYNC_FETCH_TENNIS_EVENTS = 'ASYNC_FETCH_TENNIS_EVENTS',
   CANCEL_FETCHING_REQUEST = 'CANCEL_FETCHING_REQUEST',
-  SET_FETCHING_PARAMS = 'SET_FETCHING_PARAMS'
+  SET_VIEWING_FILTER = 'SET_VIEWING_FILTER'
 }
 
 // Action creators
@@ -24,8 +24,7 @@ export const actionCreators = {
     { message: string }
   >(ActionType.ASYNC_FETCH_TENNIS_EVENTS),
 
-  // 未指定の検索条件は前回値を引き継ぐ(reducerにてマージ)。
-  setFetchingParams: factory<FetchingParams>(ActionType.SET_FETCHING_PARAMS)
+  setViewingFilter: factory<ViewingFilter>(ActionType.SET_VIEWING_FILTER)
 };
 
 // Payload

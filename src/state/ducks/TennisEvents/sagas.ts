@@ -21,13 +21,11 @@ function* handleFetchEventsRequest(
   yield race({
     task: call(asyncFetchEventsWithDelay, action.payload),
     cancel: take(ActionType.CANCEL_FETCHING_REQUEST),
-    cancelByChangeParams: take(ActionType.SET_FETCHING_PARAMS)
+    cancelByChangeParams: take(ActionType.SET_VIEWING_FILTER)
   });
 }
 
 function* asyncFetchEventsWithDelay(params: RequestFetchTennisEventsPayload) {
-  if (!params.keyword && !params.bounds) return;
-
   if (params.fetchingDelay) {
     yield call(delay, params.fetchingDelay);
   }

@@ -7,21 +7,18 @@ import { Action } from 'typescript-fsa';
 
 function mapStateToProps(state: ReduxRootState) {
   return {
-    // previousFetchingParams: state.tennisEvents.fetchingParams
+    previousFetchingParams: state.tennisEvents.fetchingParams
   };
 }
 
 function mapDispatchToProps(
-  dispatch: Dispatch<Action<any>>
-  // { previousFetchingParams }: StateProps
+  dispatch: Dispatch<Action<any>>,
+  { previousFetchingParams }: StateProps
 ) {
   return bindActionCreators(
     {
       onClick: () =>
-        actionCreators.requestFetchTennisEvents({
-          // ...previousFetchingParams,
-          keyword: ''
-        })
+        actionCreators.requestFetchTennisEvents(previousFetchingParams)
     },
     dispatch
   );

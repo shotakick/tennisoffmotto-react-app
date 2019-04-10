@@ -20,7 +20,7 @@ import EventMap, {
 } from '../components/EventMap';
 
 // Constants
-const DELAY_AMOUNT_FOR_FETCHING_START = 800;
+const DELAY_AMOUNT_FOR_FETCHING_START = 200;
 
 // Types
 interface InjectedProps {

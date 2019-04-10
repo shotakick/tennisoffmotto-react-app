@@ -6,7 +6,7 @@ import { TennisEventInfo, ViewingFilter } from './types';
 // Selectors with memorized
 export const getFilterringEvents = createSelector(
   (state: ReduxRootState) => state.tennisEvents.events,
-  (state: ReduxRootState) => state.tennisEvents.fetchingParams.filter,
+  (state: ReduxRootState) => state.tennisEvents.viewingFilter,
   (events, filter) => {
     if (!filter) return events;
     return events.filter(e => isMatchedFilter(e, filter));
@@ -42,7 +42,7 @@ export const getGroupedEventsByPointWithLimit = createSelector(
 );
 
 export const getFilterName = createSelector(
-  (state: ReduxRootState) => state.tennisEvents.fetchingParams.filter,
+  (state: ReduxRootState) => state.tennisEvents.viewingFilter,
   (state: any, defaultName: string) => defaultName,
   (filter, defaultName) =>
     filter

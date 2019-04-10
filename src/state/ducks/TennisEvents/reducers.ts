@@ -1,16 +1,18 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { actionCreators } from './actions';
-import { FetchedResult, FetchingParams } from './types';
+import { FetchedResult, FetchingParams, ViewingFilter } from './types';
 
 export type TennisEventsState = FetchedResult & {
   fetchingParams: FetchingParams;
+  viewingFilter: ViewingFilter;
   isLoading: boolean;
 };
 
 const initialState: TennisEventsState = {
   events: [],
   hitsCount: 0,
-  fetchingParams: {},
+  fetchingParams: { keyword: '' },
+  viewingFilter: {},
   isLoading: false
 };
 
@@ -31,9 +33,9 @@ export const tennisEventsReducer = reducerWithInitialState<TennisEventsState>(
     ...initialState,
     fetchingParams: { ...payload.params }
   }))
-  .case(actionCreators.setFetchingParams, (state, payload) => ({
+  .case(actionCreators.setViewingFilter, (state, payload) => ({
     ...state,
-    fetchingParams: { ...payload }
+    viewingFilter: { ...payload }
   }))
   .build();
 export default tennisEventsReducer;

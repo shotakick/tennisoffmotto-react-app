@@ -1,18 +1,9 @@
-export { TennisEventInfo } from 'client/TennisEvents';
-
-export interface FetchingParams {
-  filter?: ViewingFilter;
-  keyword?: string;
-  bounds?: google.maps.LatLngBoundsLiteral;
-}
-
-export { FetchedResult } from 'client/TennisEvents';
-
-export interface ViewingParams {
-  filter?: ViewingFilter;
-  keyword?: string;
-  bounds?: google.maps.LatLngBoundsLiteral;
-}
+export {
+  TennisEventInfo,
+  FetchingFilters,
+  FetchingParams,
+  FetchedResult
+} from 'client/TennisEvents';
 
 export interface ViewingFilter {
   title?: string;
