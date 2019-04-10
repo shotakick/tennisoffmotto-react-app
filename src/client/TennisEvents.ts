@@ -1,8 +1,6 @@
-import { Wrap } from 'utils';
 import Algolia from './Algolia';
 
-export type TennisEventInfo = Wrap<TennisEventInfoJson, ConversionTypes>;
-interface TennisEventInfoJson {
+export interface TennisEventInfo {
   sid: number;
   title: string;
   organizer: string;
@@ -10,17 +8,13 @@ interface TennisEventInfoJson {
   _geoloc: google.maps.LatLngLiteral;
   placeName: string;
   prefecture: string;
-  date: { _seconds: number };
+  date: Date;
   timespan: number;
-  limitDate: { _seconds: number };
+  limitDate: Date;
   capacity: number;
   courtCount: number;
   courtType: string;
   detail?: string;
-}
-interface ConversionTypes {
-  date: Date;
-  limitDate: Date;
 }
 
 export interface FetchedResult {
@@ -52,9 +46,7 @@ export async function fetchEvents({
     insideBoundingBox
   });
 
-  const events = convertJsonToClientFormat(hits);
-
-  return { events, hitsCount: nbHits };
+  return { events: hits, hitsCount: nbHits };
 }
 
 function mapsBoundsToAlgoliaBoundingBox(
@@ -63,17 +55,4 @@ function mapsBoundsToAlgoliaBoundingBox(
   return bounds
     ? [[bounds.north, bounds.west, bounds.south, bounds.east]]
     : undefined;
-}
-
-function convertJsonToClientFormat(
-  hits: TennisEventInfoJson[]
-): TennisEventInfo[] {
-  return hits.map(hit => {
-    const { date, limitDate, ...rest } = hit;
-    return {
-      date: new Date(date._seconds * 1000),
-      limitDate: new Date(limitDate._seconds * 1000),
-      ...rest
-    };
-  });
 }
