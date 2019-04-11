@@ -3,12 +3,15 @@ import * as React from 'react';
 import {
   GoogleMap,
   GoogleMapProps,
+  Marker,
   withGoogleMap,
   WithGoogleMapProps,
   withScriptjs,
   WithScriptjsProps
 } from 'react-google-maps';
 import { compose, setDisplayName, withProps } from 'recompose';
+import { usePresentPosition } from 'views/hooks/common/geolocation';
+import { useEventInfoWindowControl } from 'views/hooks/EventMap';
 import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
 import EventInfoWindow from './EventInfoWindow';
@@ -24,32 +27,27 @@ export const EventMap: React.FC<EventMapProps> = ({
   eventGroupListByPosition,
   ...mapProps
 }) => {
-  const [openedInfoWindowKey, setOpenedInfoWindowKey] = React.useState<
-    string | null
-  >(null);
-  const handleClickMarker = React.useCallback(
-    (key: string) =>
-      setOpenedInfoWindowKey(prev => (prev === key ? null : key)),
-    [setOpenedInfoWindowKey]
-  );
-  const closeInfoWindow = React.useCallback(
-    () => setOpenedInfoWindowKey(null),
-    [setOpenedInfoWindowKey]
-  );
+  const presentPosition = usePresentPosition();
+  const {
+    openedMarkerKey,
+    closeWindow,
+    toggleWindow
+  } = useEventInfoWindowControl();
 
   return (
-    <GoogleMap ref={mapRef} onClick={closeInfoWindow} {...mapProps}>
+    <GoogleMap ref={mapRef} onClick={closeWindow} {...mapProps}>
+      {presentPosition && <Marker position={presentPosition} />}
       {Object.keys(eventGroupListByPosition).map(key => (
         <EventMapMarker
           key={key}
           key_={key}
           events={eventGroupListByPosition[key]}
-          handleClick={handleClickMarker}
+          handleClick={toggleWindow}
         >
-          {key === openedInfoWindowKey && (
+          {key === openedMarkerKey && (
             <EventInfoWindow
               events={eventGroupListByPosition[key]}
-              onCloseClick={closeInfoWindow}
+              onCloseClick={closeWindow}
             />
           )}
         </EventMapMarker>
@@ -57,6 +55,9 @@ export const EventMap: React.FC<EventMapProps> = ({
       <MapControl position={google.maps.ControlPosition.BOTTOM_LEFT}>
         <AlgoliaLogo />
       </MapControl>
+      {/* <MapControl position={google.maps.ControlPosition.RIGHT_BOTTOM}>
+        <Button icon="location arrow" />
+      </MapControl> */}
     </GoogleMap>
   );
 };
