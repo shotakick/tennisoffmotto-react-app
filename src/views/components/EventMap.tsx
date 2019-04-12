@@ -14,7 +14,7 @@ import { usePresentPosition } from 'views/hooks/common/geolocation';
 import { useEventInfoWindowControl, usePanTo } from 'views/hooks/EventMap';
 import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
-import PresentLocationMapControl from './common/PresentLocationMapControl';
+import PresentLocationMapControlButton from './common/PresentLocationMapControlButton';
 import EventInfoWindow from './EventInfoWindow';
 import EventMapMarker from './EventMapMarker';
 
@@ -54,7 +54,7 @@ export const EventMap: React.FC<EventMapProps> = ({
           )}
         </EventMapMarker>
       ))}
-      <PresentLocationMapControl
+      <PresentLocationMapControlButton
         position={google.maps.ControlPosition.RIGHT_BOTTOM}
         onClick={panToPresentLocation}
         disabled={presentPosition === null}

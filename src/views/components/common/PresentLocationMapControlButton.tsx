@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MapControlButton, { MapControlButtonProps } from './MapControlButton';
 
-export const PresentLocationMapControl: React.FC<
+export const PresentLocationMapControlButton: React.FC<
   MapControlButtonProps
 > = props => (
   <MapControlButton
@@ -10,4 +10,4 @@ export const PresentLocationMapControl: React.FC<
     cursor={props.disabled ? 'not-allowed' : 'pointer'}
   />
 );
-export default PresentLocationMapControl;
+export default PresentLocationMapControlButton;
