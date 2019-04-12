@@ -11,9 +11,10 @@ import {
 } from 'react-google-maps';
 import { compose, setDisplayName, withProps } from 'recompose';
 import { usePresentPosition } from 'views/hooks/common/geolocation';
-import { useEventInfoWindowControl } from 'views/hooks/EventMap';
+import { useEventInfoWindowControl, usePanTo } from 'views/hooks/EventMap';
 import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
+import PresentLocationMapControl from './common/PresentLocationMapControl';
 import EventInfoWindow from './EventInfoWindow';
 import EventMapMarker from './EventMapMarker';
 
@@ -33,6 +34,7 @@ export const EventMap: React.FC<EventMapProps> = ({
     closeWindow,
     toggleWindow
   } = useEventInfoWindowControl();
+  const panToPresentLocation = usePanTo(mapRef.current, presentPosition);
 
   return (
     <GoogleMap ref={mapRef} onClick={closeWindow} {...mapProps}>
@@ -52,12 +54,15 @@ export const EventMap: React.FC<EventMapProps> = ({
           )}
         </EventMapMarker>
       ))}
-      <MapControl position={google.maps.ControlPosition.BOTTOM_LEFT}>
+      <MapControl position={google.maps.ControlPosition.RIGHT_BOTTOM}>
+        <PresentLocationMapControl
+          onClick={panToPresentLocation}
+          disabled={presentPosition === null}
+        />
+      </MapControl>
+      <MapControl position={google.maps.ControlPosition.LEFT_BOTTOM}>
         <AlgoliaLogo />
       </MapControl>
-      {/* <MapControl position={google.maps.ControlPosition.RIGHT_BOTTOM}>
-        <Button icon="location arrow" />
-      </MapControl> */}
     </GoogleMap>
   );
 };
