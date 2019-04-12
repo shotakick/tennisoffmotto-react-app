@@ -54,12 +54,11 @@ export const EventMap: React.FC<EventMapProps> = ({
           )}
         </EventMapMarker>
       ))}
-      <MapControl position={google.maps.ControlPosition.RIGHT_BOTTOM}>
-        <PresentLocationMapControl
-          onClick={panToPresentLocation}
-          disabled={presentPosition === null}
-        />
-      </MapControl>
+      <PresentLocationMapControl
+        position={google.maps.ControlPosition.RIGHT_BOTTOM}
+        onClick={panToPresentLocation}
+        disabled={presentPosition === null}
+      />
       <MapControl position={google.maps.ControlPosition.LEFT_BOTTOM}>
         <AlgoliaLogo />
       </MapControl>
