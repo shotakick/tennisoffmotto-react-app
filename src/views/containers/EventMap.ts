@@ -10,6 +10,7 @@ import { FetchingFilters } from '../../client/TennisEvents';
 import { ReduxRootState } from '../../state/ducks';
 import {
   actionCreators,
+  getGroupedEventsByPointWithLimit
 } from '../../state/ducks/TennisEvents';
 import EventMap, {
   EventMapProps as ComponentProps
@@ -23,12 +24,22 @@ interface InjectedProps {
   maxMarkerVisibleCount: number;
 }
 type OwnProps = ComponentProps & InjectedProps;
-type PublicProps = Omit<OwnProps, keyof StateProps | 'mapRef'>;
-type StateProps = Pick<ComponentProps, 'eventGroupListByPosition'>;
-// type DispatchProps = Pick<ComponentProps, 'onIdle' | 'onBoundsChanged'>;
+type PublicProps = Omit<
+  OwnProps,
+  keyof StateProps | keyof DispatchProps | 'mapRef'
+>;
+type StateProps = Pick<
+  ComponentProps,
+  'eventGroupListByPosition' | 'autoFetchingMode' | 'isFetching'
+>;
 type OwnState = StateProps & {
-  previousFetchingParams: FetchingParams;
+  fetchingKeyword: string;
+  fetchingFilters?: FetchingFilters;
 };
+type DispatchProps = Pick<
+  ComponentProps,
+  'startFetching' | 'cancelFetching' | 'setFetchingBounds'
+>;
 
 // Sub functions for Enhancer(redux connection)
 const mapStateToProps = (
@@ -39,34 +50,40 @@ const mapStateToProps = (
     maxCount: maxMarkerVisibleCount,
     zoomLevel: mapRef.current ? mapRef.current.getZoom() : 1
   }),
-  previousFetchingParams: state.tennisEvents.fetchingParams
+  autoFetchingMode: state.app.autoFetchingMode,
+  isFetching: state.tennisEvents.isLoading,
+  fetchingKeyword: state.tennisEvents.fetchingParams.keyword,
+  fetchingFilters: state.tennisEvents.fetchingParams.filters
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({ dispatch });
 
 const mergeProps = (
-  { previousFetchingParams, ...stateProps }: OwnState,
+  // { fetchingKeyword, fetchingFilters, ...stateProps }: OwnState,
+  state: OwnState,
   { dispatch }: { dispatch: Dispatch<Action<any>> },
-  ownProps: OwnProps
+  props: OwnProps
 ): OwnProps => ({
-  ...ownProps,
-  ...stateProps,
-  onIdle: () =>
+  ...props,
+  ...state,
+  startFetching: (withDalay?: boolean) =>
     dispatch(
-      actionCreators.requestFetchTennisEvents(
-        getNewFetchingParams(previousFetchingParams, ownProps)
-      )
+      actionCreators.requestFetchTennisEvents({
+        keyword: state.fetchingKeyword,
+        filters: state.fetchingFilters,
+        bounds: (props.mapRef.current as GoogleMap).getBounds().toJSON(),
+        fetchingDelay: withDalay ? DELAY_AMOUNT_FOR_FETCHING_START : 0
+      })
+    ),
+  cancelFetching: () => dispatch(actionCreators.cancelFetchingTennisEvents()),
+  setFetchingBounds: () =>
+    dispatch(
+      actionCreators.setFetchingParams({
+        keyword: state.fetchingKeyword,
+        filters: state.fetchingFilters,
+        bounds: (props.mapRef.current as GoogleMap).getBounds().toJSON()
+      })
     )
-  // onBoundsChanged: () => dispatch(actionCreators.cancelFetchingTennisEvents())
-});
-
-const getNewFetchingParams = (
-  previousFetchingParams: FetchingParams,
-  ownProps: OwnProps
-): RequestFetchTennisEventsPayload => ({
-  ...previousFetchingParams,
-  bounds: (ownProps.mapRef.current as GoogleMap).getBounds().toJSON(),
-  fetchingDelay: DELAY_AMOUNT_FOR_FETCHING_START
 });
 
 // Create Enhancer

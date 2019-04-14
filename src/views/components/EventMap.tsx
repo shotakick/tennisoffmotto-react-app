@@ -19,17 +19,28 @@ import {
 import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
 import PresentLocationMapControlButton from './common/PresentLocationMapControlButton';
+import EventFetchButton from './EventFetchButton';
 import EventInfoWindow from './EventInfoWindow';
 import EventMapMarker from './EventMapMarker';
 
 export type EventMapProps = {
   mapRef: React.RefObject<GoogleMap>;
   eventGroupListByPosition: { [key: string]: TennisEventInfo[] };
+  startFetching: (withDalay?: boolean) => void;
+  cancelFetching: () => void;
+  setFetchingBounds: () => void;
+  autoFetchingMode: boolean;
+  isFetching: boolean;
 } & GoogleMapProps;
 
 export const EventMap: React.FC<EventMapProps> = ({
   mapRef,
   eventGroupListByPosition,
+  autoFetchingMode,
+  isFetching,
+  startFetching,
+  cancelFetching,
+  setFetchingBounds,
   ...mapProps
 }) => {
   const presentPosition = usePresentPosition();
@@ -39,9 +50,18 @@ export const EventMap: React.FC<EventMapProps> = ({
     toggleWindow
   } = useEventInfoWindowControl();
   const panToPresentLocation = usePanTo(mapRef.current, presentPosition);
+  const handleIdle = React.useCallback(
+    () => (autoFetchingMode ? startFetching(true) : setFetchingBounds()),
+    [autoFetchingMode, startFetching, setFetchingBounds]
+  );
 
   return (
-    <GoogleMap ref={mapRef} onClick={closeWindow} {...mapProps}>
+    <GoogleMap
+      ref={mapRef}
+      onIdle={handleIdle}
+      onClick={closeWindow}
+      {...mapProps}
+    >
       {presentPosition && <Marker position={presentPosition} />}
       {Object.keys(eventGroupListByPosition).map(key => (
         <EventMapMarker
@@ -58,6 +78,11 @@ export const EventMap: React.FC<EventMapProps> = ({
           )}
         </EventMapMarker>
       ))}
+      <EventFetchButton
+        position={google.maps.ControlPosition.RIGHT_TOP}
+        onClick={startFetching}
+        isFetching={isFetching}
+      />
       <PresentLocationMapControlButton
         position={google.maps.ControlPosition.RIGHT_BOTTOM}
         onClick={panToPresentLocation}
@@ -66,6 +91,7 @@ export const EventMap: React.FC<EventMapProps> = ({
       <MapControl position={google.maps.ControlPosition.LEFT_BOTTOM}>
         <AlgoliaLogo />
       </MapControl>
+      <Loader active={false} inline="centered" />
     </GoogleMap>
   );
 };
