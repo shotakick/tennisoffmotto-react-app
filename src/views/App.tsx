@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { GoogleMapProps } from 'react-google-maps';
-import './App.css';
+import './App.scss';
 import MainMenu from './components/MainMenu';
 import EventMap from './containers/EventMap';
 import { initialMapOptions } from './ini/EventMap';
