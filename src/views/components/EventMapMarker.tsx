@@ -1,6 +1,6 @@
-import { TennisEventInfo } from 'client/TennisEvents';
 import * as React from 'react';
 import { Marker } from 'react-google-maps';
+import { TennisEventInfo } from '../../client/TennisEvents';
 
 const ballIcon: google.maps.Icon = { url: 'images/tennis-ball.png' };
 

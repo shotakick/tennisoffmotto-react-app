@@ -1,9 +1,9 @@
-import { TennisEventInfo } from 'client/TennisEvents';
 import moment from 'moment';
 import 'moment/locale/ja';
 import * as React from 'react';
 import { InfoWindow, InfoWindowProps } from 'react-google-maps';
 import { Divider, List } from 'semantic-ui-react';
+import { TennisEventInfo } from '../../client/TennisEvents';
 
 const INFO_URL = 'https://www.tennisoff.net/off';
 const USER_URL = 'https://www.tennisoff.net/profile';

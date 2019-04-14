@@ -1,4 +1,4 @@
-import { Omit, RequireOne } from 'utils';
+import { Omit, RequireOne } from '../utils';
 import Algolia from './Algolia';
 
 interface TennisEventAllInfo {

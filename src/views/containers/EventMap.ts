@@ -5,17 +5,13 @@ import { GoogleMap } from 'react-google-maps';
 import { connect } from 'react-redux';
 import { compose, Omit, pure, setDisplayName, withProps } from 'recompose';
 import { Dispatch } from 'redux';
-import { ReduxRootState } from 'state/ducks';
+import { Action } from 'typescript-fsa';
+import { FetchingFilters } from '../../client/TennisEvents';
+import { ReduxRootState } from '../../state/ducks';
 import {
   actionCreators,
-  FetchingParams,
-  getGroupedEventsByPointWithLimit,
-  RequestFetchTennisEventsPayload
-} from 'state/ducks/TennisEvents';
-import { Action } from 'typescript-fsa';
+} from '../../state/ducks/TennisEvents';
 import EventMap, {
-  // import {
-  //   EventMap,
   EventMapProps as ComponentProps
 } from '../components/EventMap';
 

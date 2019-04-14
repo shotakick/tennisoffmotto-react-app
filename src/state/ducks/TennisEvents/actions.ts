@@ -1,5 +1,4 @@
 import { actionCreatorFactory } from 'typescript-fsa';
-import { FetchedResult, FetchingParams, ViewingFilter } from './types';
 
 // Action types
 export enum ActionType {
@@ -8,6 +7,8 @@ export enum ActionType {
   CANCEL_FETCHING_REQUEST = 'CANCEL_FETCHING_REQUEST',
   SET_VIEWING_FILTER = 'SET_VIEWING_FILTER'
 }
+import { FetchedResult, FetchingParams } from '../../../client/TennisEvents';
+import { ViewingFilter } from './types';
 
 // Action creators
 const factory = actionCreatorFactory();

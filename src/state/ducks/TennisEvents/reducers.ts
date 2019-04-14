@@ -1,6 +1,7 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
+import { FetchedResult, FetchingParams } from '../../../client/TennisEvents';
 import { actionCreators } from './actions';
-import { FetchedResult, FetchingParams, ViewingFilter } from './types';
+import { ViewingFilter } from './types';
 
 export type TennisEventsState = FetchedResult & {
   fetchingParams: FetchingParams;

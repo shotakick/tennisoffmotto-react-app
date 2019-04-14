@@ -1,4 +1,3 @@
-import { TennisEventInfo } from 'client/TennisEvents';
 import * as React from 'react';
 import {
   GoogleMap,
@@ -10,8 +9,13 @@ import {
   WithScriptjsProps
 } from 'react-google-maps';
 import { compose, setDisplayName, withProps } from 'recompose';
-import { usePresentPosition } from 'views/hooks/common/geolocation';
-import { useEventInfoWindowControl, usePanTo } from 'views/hooks/EventMap';
+import { Loader } from 'semantic-ui-react';
+import { TennisEventInfo } from '../../client/TennisEvents';
+import { usePresentPosition } from '../../views/hooks/common/geolocation';
+import {
+  useEventInfoWindowControl,
+  usePanTo
+} from '../../views/hooks/EventMap';
 import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
 import PresentLocationMapControlButton from './common/PresentLocationMapControlButton';

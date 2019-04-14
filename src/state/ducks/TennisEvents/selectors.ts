@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
-import { toGroupObjectsByKey } from 'utils';
 import { ReduxRootState } from '..';
-import { TennisEventInfo, ViewingFilter } from './types';
+import { TennisEventInfo } from '../../../client/TennisEvents';
+import { toGroupObjectsByKey } from '../../../utils';
+import { ViewingFilter } from './types';
 
 // Selectors with memorized
 export const getFilterringEvents = createSelector(

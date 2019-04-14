@@ -7,6 +7,8 @@ import {
   ActionType,
   RequestFetchTennisEventsPayload
 } from './actions';
+import * as Api from '../../../client/TennisEvents';
+import { actionCreators, RequestFetchTennisEventsPayload } from './actions';
 
 export function* tennisEventsSaga() {
   yield takeLatest(

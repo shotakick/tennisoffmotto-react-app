@@ -1,9 +1,7 @@
 import { connect, Omit } from 'react-redux';
-import { ReduxRootState } from 'state/ducks';
-import { getFilterName, getFilterringEvents } from 'state/ducks/TennisEvents';
-import EventList, {
-  EventListProps as InnerProps
-} from '../components/EventList';
+import { ReduxRootState } from '../../state/ducks';
+import { getFilterringEvents } from '../../state/ducks/TennisEvents';
+import EventList, { EventListProps } from '../components/EventList';
 
 export type EventListProps = Omit<InnerProps, 'items'>;
 

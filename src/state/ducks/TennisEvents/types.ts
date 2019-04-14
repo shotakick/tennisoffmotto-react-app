@@ -1,9 +1,4 @@
-export {
-  TennisEventInfo,
-  FetchingFilters,
-  FetchingParams,
-  FetchedResult
-} from 'client/TennisEvents';
+import { TennisEventInfo } from '../../../client/TennisEvents';
 
 export interface ViewingFilter {
   title?: string;

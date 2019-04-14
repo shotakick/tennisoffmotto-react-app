@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dropdown, Menu, MenuProps } from 'semantic-ui-react';
-import FetchEventsButton from 'views/containers/FetchEventsButton';
-import FilterEventsButton from 'views/containers/FilterEventsButton';
+import FetchEventsButton from '../../views/containers/FetchEventsButton';
+import FilterEventsButton from '../../views/containers/FilterEventsButton';
 
 const menuProps: MenuProps = {
   color: 'teal',
