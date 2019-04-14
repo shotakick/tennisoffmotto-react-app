@@ -5,18 +5,28 @@ import { toGroupObjectsByKey } from '../../../utils';
 import { ViewingFilter } from './types';
 
 // Selectors with memorized
-export const getFilterringEvents = createSelector(
-  (state: ReduxRootState) => state.tennisEvents.events,
-  (state: ReduxRootState) => state.tennisEvents.viewingFilter,
-  (events, filter) => {
-    if (!filter) return events;
-    return events.filter(e => isMatchedFilter(e, filter));
-  }
+export const getFilterringEvents = createSelector<
+  ReduxRootState,
+  TennisEventInfo[],
+  ViewingFilter,
+  TennisEventInfo[]
+>(
+  state => state.tennisEvents.events,
+  state => state.tennisEvents.viewingFilter,
+  (events, filter) => events.filter(e => isMatchedFilter(e, filter))
 );
 
-export const getGroupedEventsByNearyPoint = createSelector(
+export type GroupedEvents = { [index: string]: TennisEventInfo[] };
+
+export const getGroupedEventsByNearyPoint = createSelector<
+  ReduxRootState,
+  { zoomLevel: number },
+  TennisEventInfo[],
+  number,
+  GroupedEvents
+>(
   getFilterringEvents,
-  (state: any, { zoomLevel }: { zoomLevel: number }) => zoomLevel,
+  (state, { zoomLevel }) => zoomLevel,
   (events, zoomLevel) => {
     // 同一位置毎にグループ化させて地図にマーカー表示させたいが
     // 元データの位置座標が同じ場所なのに微妙に一致しない場合が多々あるので
@@ -30,9 +40,15 @@ export const getGroupedEventsByNearyPoint = createSelector(
   }
 );
 
-export const getGroupedEventsByPointWithLimit = createSelector(
+export const getGroupedEventsByPointWithLimit = createSelector<
+  ReduxRootState,
+  { zoomLevel: number; maxCount: number },
+  GroupedEvents,
+  number,
+  GroupedEvents
+>(
   getGroupedEventsByNearyPoint,
-  (state: any, { maxCount }: { maxCount: number }) => maxCount,
+  (state, { maxCount }) => maxCount,
   (srcList, maxCount) => {
     const newList: typeof srcList = {};
     Object.keys(srcList)
@@ -42,28 +58,14 @@ export const getGroupedEventsByPointWithLimit = createSelector(
   }
 );
 
-export const getFilterName = createSelector(
-  (state: ReduxRootState) => state.tennisEvents.viewingFilter,
-  (state: any, defaultName: string) => defaultName,
-  (filter, defaultName) =>
-    filter
-      ? Object.entries(filter).reduce(
-          (acc, cur) => [`${acc[0]}/${cur[0]}(${cur[1]})`, null],
-          ['表示条件:', null]
-        )
-      : defaultName
-);
-
 // Sub functions for selector
+// 将来対応 とりあえずの適当実装
 function isMatchedFilter(
   event: TennisEventInfo,
   filter: ViewingFilter
 ): boolean {
-  for (const key of Object.keys(filter)) {
-    if (!filter[key]) continue;
-    if (!event[key]) return false;
-    if (!event[key].includes(filter[key])) return false;
-  }
+  if (filter.sex && filter.sex !== event.sex) return false;
+  if (filter.prefecture && filter.prefecture !== event.prefecture) return false;
   return true;
 }
 

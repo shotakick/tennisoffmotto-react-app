@@ -1,14 +1,12 @@
 import * as React from 'react';
-import { Header, Item } from 'semantic-ui-react';
+import { Item } from 'semantic-ui-react';
 
 export interface EventListProps {
-  header: string;
   items: { header: string; metas: string[] }[];
 }
 
-const EventList: React.FC<EventListProps> = ({ header, items = [] }) => (
+const EventList: React.FC<EventListProps> = ({ items = [] }) => (
   <>
-    <Header as="h2">{header}</Header>
     <Item.Group divided={true}>
       {items.map((item, i) => (
         <Item key={i}>

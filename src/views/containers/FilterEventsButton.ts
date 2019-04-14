@@ -10,17 +10,14 @@ interface OwnProps {
 
 const mapStateToProps = () => ({});
 
-const mapDispatchToProps = (dispatch: Dispatch<Action<any>>, props: OwnProps) =>
-  bindActionCreators(
-    {
-      onClick: () => actionCreators.setViewingFilter(props.filter)
-    },
-    dispatch
-  );
+const mapDispatchToProps = (
+  dispatch: Dispatch<Action<any>>,
+  props: OwnProps
+) => ({
+  onClick: () => dispatch(actionCreators.setViewingFilter(props.filter))
+});
 
-type StateToProps = ReturnType<typeof mapStateToProps>;
-type DispatchToProps = ReturnType<typeof mapDispatchToProps>;
-export default connect<StateToProps, DispatchToProps, ButtonProps>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Button);

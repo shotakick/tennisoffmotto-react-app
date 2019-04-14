@@ -34,9 +34,13 @@ export const tennisEventsReducer = reducerWithInitialState<TennisEventsState>(
     ...initialState,
     fetchingParams: { ...payload.params }
   }))
+  .case(actionCreators.setFetchingParams, (state, payload) => ({
+    ...state,
+    fetchingParams: payload
+  }))
   .case(actionCreators.setViewingFilter, (state, payload) => ({
     ...state,
-    viewingFilter: { ...payload }
+    viewingFilter: payload
   }))
   .build();
 export default tennisEventsReducer;

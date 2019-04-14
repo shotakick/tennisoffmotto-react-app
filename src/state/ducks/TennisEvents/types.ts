@@ -1,11 +1,14 @@
 import { TennisEventInfo } from '../../../client/TennisEvents';
 
-export interface ViewingFilter {
-  title?: string;
-  organizer?: string;
-  sex?: string;
-  placeName?: string;
-  prefecture?: string;
-  courtType?: string;
-  detail?: string;
-}
+// 将来対応 とりあえずの適当実装
+export type ViewingFilter = Partial<
+  Record<
+    keyof Pick<
+      TennisEventInfo,
+      'title' | 'organizer' | 'sex' | 'placeName' | 'prefecture' | 'courtCount'
+    >,
+    string
+  >
+> & {
+  [key: string]: string | undefined;
+};

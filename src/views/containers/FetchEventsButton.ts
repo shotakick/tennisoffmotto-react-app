@@ -15,13 +15,13 @@ const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({ dispatch });
 
 const mergeProps = (
   { previousFetchingParams }: StateProps,
-  { dispatch }: DispatchProp
+  { dispatch }: DispatchingProps
 ) => ({
   onClick: () =>
     dispatch(actionCreators.requestFetchTennisEvents(previousFetchingParams))
 });
 
-export default connect<StateProps, DispatchingProps, ButtonProps>(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps

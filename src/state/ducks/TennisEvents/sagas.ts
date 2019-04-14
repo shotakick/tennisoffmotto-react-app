@@ -1,18 +1,11 @@
-import * as Api from 'client/TennisEvents';
-import { delay } from 'redux-saga';
-import { call, put, race, take, takeLatest } from 'redux-saga/effects';
+import { call, delay, put, race, take, takeLatest } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
-import {
-  actionCreators,
-  ActionType,
-  RequestFetchTennisEventsPayload
-} from './actions';
 import * as Api from '../../../client/TennisEvents';
 import { actionCreators, RequestFetchTennisEventsPayload } from './actions';
 
 export function* tennisEventsSaga() {
   yield takeLatest(
-    ActionType.REQUEST_FETCH_TENNIS_EVENTS,
+    actionCreators.requestFetchTennisEvents.type,
     handleFetchEventsRequest
   );
 }
@@ -22,14 +15,14 @@ function* handleFetchEventsRequest(
 ) {
   yield race({
     task: call(asyncFetchEventsWithDelay, action.payload),
-    cancel: take(ActionType.CANCEL_FETCHING_REQUEST),
-    cancelByChangeParams: take(ActionType.SET_VIEWING_FILTER)
+    cancel: take(actionCreators.cancelFetchingTennisEvents.type),
+    cancelByChangeParams: take(actionCreators.setViewingFilter.type)
   });
 }
 
 function* asyncFetchEventsWithDelay(params: RequestFetchTennisEventsPayload) {
   if (params.fetchingDelay) {
-    yield call(delay, params.fetchingDelay);
+    yield delay(params.fetchingDelay);
   }
 
   yield put(actionCreators.asyncFetchTennisEvents.started(params));
