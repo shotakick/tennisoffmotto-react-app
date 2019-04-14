@@ -4,7 +4,7 @@ import FetchEventsButton from '../../views/containers/FetchEventsButton';
 import FilterEventsButton from '../../views/containers/FilterEventsButton';
 
 const menuProps: MenuProps = {
-  color: 'teal',
+  color: 'green',
   inverted: true,
   stackable: true
 };
