@@ -15,6 +15,7 @@
 
 * Linter and Code Formatter
   * TSLint
+  * stylelint
   * Prettier
 
 * View
@@ -39,6 +40,10 @@
 * UI Components
   * [Semantic UI React](https://react.semantic-ui.com)
 
+* StyleSheet
+  * Sass: SCSS
+  * CSS-Modules
+
 * Map API
   * [Google Maps Platform](https://cloud.google.com/maps-platform)
     * [Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/tutorial)
@@ -49,6 +54,9 @@
 
 * Back-End
   * [Algolia](https://www.algolia.com)
+
+* Testing
+  * TODO
 
 * Dev Tools
   * [React Developer Tools](https://github.com/facebook/react-devtools)

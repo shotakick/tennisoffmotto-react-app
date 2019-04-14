@@ -19,6 +19,7 @@
 
 * Linter and Code Formatter
   * TSLint
+  * stylelint
   * Prettier
 
 * View
@@ -57,8 +58,9 @@
   * [Semantic UI React](https://react.semantic-ui.com)
     * react-semantic-redux-form
 
-* Styling
-  * ~~CSS-Modules~~
+* StyleSheet
+  * Sass: SCSS
+  * CSS-Modules
   * ~~CSS in JS~~
 
 * Library
@@ -139,7 +141,7 @@ $ git --version
 ```bat
 $ choco install nodist -y
 $ nodist -v
-  0.8.8
+  0.9.1
 ```
 
 ### Node.js更新
@@ -151,18 +153,6 @@ $ nodist - 7
 ```
 
 ### npm更新
-* [nodistでnpm6.2.0以降にアップデート出来なかった話](https://qiita.com/TalkWithWater/items/aa7b1becd8fc1344170d)
-
-以下ファイルを修正してからコマンド実行。
-* C:\Program Files (x86)\Nodist\lib\npm.js
-```diff
-NPMIST.downloadUrl = function(version){
--  return 'https://codeload.github.com/npm/npm/tar.gz/vVERSION'
-+  return 'https://codeload.github.com/npm/cli/tar.gz/vVERSION'
-    .replace('VERSION',version.replace('v',''));
-};
-```
-
 ```bat
 $ nodist npm global match 
 ```
@@ -191,72 +181,28 @@ $ yarn -v
   1.15.2
 ```
 
-## React CLIツール
-* create-react-app
-```bat
-$ npm install create-react-app -g
-$ create-react-app --version
-  2.1.8
-```
-
 # Reactアプリ環境構築
 
 ## Reactアプリプロジェクトの作成
 ```bat
-$ create-react-app tennisoffmotto-react-app --scripts-version=react-scripts-ts
+$ npx create-react-app -V
+  2.1.8
+$ npx create-react-app tennisoffmotto-react-app typescript
 $ cd tennisoffmotto-react-app
 ```
 
 ## 静的解析ツールおよびフォーマッタの設定
 ```TSLint```、```Prettier```、および連携用のツールをインストールする。
 ```bat
-$ yarn add -D tslint prettier tslint-plugin-prettier tslint-config-prettier tslint-config-airbnb tslint-react-hooks
+$ yarn add -D tslint prettier tslint-plugin-prettier tslint-config-prettier tslint-config-airbnb tslint-react tslint-react-hooks
+$ yarn add -D stylelint stylelint-scss stylelint-config-recommended-scss stylelint-config-prettier stylelint-prettier stylelint-config-css-modules
 ```
 
-* ```slint.json```
-```json
-{
-  "rulesDirectory": ["tslint-plugin-prettier"],
-  "extends": [
-    // "tslint:recommended",
-    "tslint-config-airbnb",
-    "tslint-react",
-    "tslint-config-prettier"
-  ],
-  "linterOptions": {
-    "exclude": [
-      "config/**/*.js",
-      "node_modules/**/*.ts",
-      "coverage/lcov-report/*.js"
-    ]
-  },
-  "rules": {
-    "prettier": [
-      true,
-      {"singleQuote": true}
-    ],
-    "ordered-imports": true,
-    "object-shorthand-properties-first":false,
-    "no-boolean-literal-compare": false
-  }
-}
-```
-
-* ```package.json```
-```json
-{
-  …
-  "scripts": {
-    …
-    "lint": "tslint --project . --fix"
-  },
-  …
-}
-```
+* ```tslint.json```を作成
+* ```package.json```にlint用コマンドを追記
 
 ## 各種ライブラリのインストール
 ```bat
-$ cd functions
 $ yarn add semantic-ui-react semantic-ui-css
 $ yarn add react-redux redux-saga redux-logger typescript-fsa typescript-fsa-reducers redux-devtools-extension
 $ yarn add -D @types/react-redux @types/redux-logger
@@ -267,6 +213,8 @@ $ yarn add algoliasearch
 $ yarn add -D @types/algoliasearch
 $ yarn add react-google-maps
 $ yarn add -D @types/googlemaps @types/markerclustererplus
+$ yarn add -D node-sass
+$ yarn add moment
 ```
 
 # デプロイ環境構築
@@ -316,18 +264,6 @@ $ git remote add origin git@github.com:shotakick/tennisoffmotto-react-app.git
   "compilerOptions": {
 -   "baseUrl": ".",
 +   "baseUrl": "src",
--   "lib": ["es6", "dom"],
-+   "lib": ["es2018", "dom"],
-```
-
-* ```.vscode/settings.json```
-```json
-{
-	"tslint.autoFixOnSave": true,
-	"terminal.integrated.env.windows": {
-		"PATH": "${env:PATH};${workspaceRoot}\\node_modules\\.bin"
-	}
-}
 ```
 
 # 開発～デプロイ
