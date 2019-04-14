@@ -3,7 +3,8 @@
 import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { createPortal } from 'react-dom';
-const { MAP } = require('react-google-maps/lib/constants');
+// const { MAP } = require('react-google-maps/lib/constants');
+const MAP = '__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED';
 
 type Props = {
   position: google.maps.ControlPosition;
@@ -15,10 +16,11 @@ export default class MapControl extends React.Component<Props> {
   private map: google.maps.Map;
   private controlDiv: HTMLDivElement;
 
-  componentWillMount() {
-    this.map = this.context[MAP];
+  constructor(props: Props, context: { [MAP]: google.maps.Map }) {
+    super(props);
+    this.map = context[MAP];
     this.controlDiv = document.createElement('div');
-    this.map.controls[this.props.position].push(this.controlDiv);
+    this.map.controls[props.position].push(this.controlDiv);
   }
 
   componentWillUnmount() {
