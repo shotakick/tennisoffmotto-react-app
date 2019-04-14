@@ -7,7 +7,7 @@ export const PresentLocationMapControlButton: React.FC<
   <MapControlButton
     {...props}
     name="location arrow"
-    cursor={props.disabled ? 'not-allowed' : 'pointer'}
+    title={props.disabled ? '現在地を取得できません' : '現在地へ移動する'}
   />
 );
 export default PresentLocationMapControlButton;

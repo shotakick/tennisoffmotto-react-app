@@ -1,11 +1,8 @@
 import * as React from 'react';
+const styles = require('./AlgoliaLogo.module.css');
 
-const algoliaLogoStyle: React.CSSProperties = {
-  marginLeft: '5px',
-  marginRight: '5px'
-};
 const AlgoliaLogo = () => (
-  <div className={'AlgoliaLogo'} style={algoliaLogoStyle}>
+  <div className={styles.AlgoliaLogo}>
     <a href={'https://www.algolia.com'} target={'_blank'} rel={'noopener'}>
       <img
         src={'images/search-by-algolia-light-background-1961896d.svg'}
