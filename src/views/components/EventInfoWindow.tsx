@@ -1,5 +1,5 @@
 import { TennisEventInfo } from 'client/TennisEvents';
-import * as Moment from 'moment';
+import moment from 'moment';
 import 'moment/locale/ja';
 import * as React from 'react';
 import { InfoWindow, InfoWindowProps } from 'react-google-maps';
@@ -19,7 +19,7 @@ const getOrganizer = (event: TennisEventInfo) => (
   </a>
 );
 const getDate = (event: TennisEventInfo) =>
-  Moment(event.date)
+  moment(event.date)
     .locale('ja')
     .format(`M月D日(ddd) k時mm分 から ${event.timespan}時間`);
 const getInfo = (event: TennisEventInfo) =>

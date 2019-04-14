@@ -1,4 +1,4 @@
-import * as algoliasearch from 'algoliasearch';
+import algoliasearch from 'algoliasearch';
 
 const appId = process.env.REACT_APP_ALGOLIA_APP_ID || 'none';
 const apiKey = process.env.REACT_APP_ALGOLIA_API_KEY || 'none';
