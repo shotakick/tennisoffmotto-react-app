@@ -51,7 +51,7 @@ const mapStateToProps = (
     zoomLevel: mapRef.current ? mapRef.current.getZoom() : 1
   }),
   autoFetchingMode: state.app.autoFetchingMode,
-  isFetching: state.tennisEvents.isLoading,
+  isFetching: state.tennisEvents.isFetching,
   fetchingKeyword: state.tennisEvents.fetchingParams.keyword,
   fetchingFilters: state.tennisEvents.fetchingParams.filters
 });

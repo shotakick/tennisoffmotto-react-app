@@ -6,7 +6,7 @@ import { ViewingFilter } from './types';
 export type TennisEventsState = FetchedResult & {
   fetchingParams: FetchingParams;
   viewingFilter: ViewingFilter;
-  isLoading: boolean;
+  isFetching: boolean;
 };
 
 const initialState: TennisEventsState = {
@@ -14,7 +14,7 @@ const initialState: TennisEventsState = {
   hitsCount: 0,
   fetchingParams: { keyword: '' },
   viewingFilter: {},
-  isLoading: false
+  isFetching: false
 };
 
 export const tennisEventsReducer = reducerWithInitialState<TennisEventsState>(
@@ -23,16 +23,18 @@ export const tennisEventsReducer = reducerWithInitialState<TennisEventsState>(
   .case(actionCreators.asyncFetchTennisEvents.started, (state, payload) => ({
     ...state,
     fetchingParams: { ...payload },
-    isLoading: true
+    isFetching: true
   }))
   .case(actionCreators.asyncFetchTennisEvents.done, (state, payload) => ({
     ...state,
     ...payload.result,
-    isLoading: false
+    isFetching: false
   }))
   .case(actionCreators.asyncFetchTennisEvents.failed, (state, payload) => ({
-    ...initialState,
-    fetchingParams: { ...payload.params }
+    ...state,
+    events: [],
+    hitsCount: 0,
+    isFetching: false
   }))
   .case(actionCreators.setFetchingParams, (state, payload) => ({
     ...state,
