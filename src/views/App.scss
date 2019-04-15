@@ -1,13 +1,9 @@
-.Title {
-  position: absolute;
-  top: 0;
+.Title-bar {
   left: 0;
   right: 0;
-  margin: 2px auto;
   text-align: center;
-
-  width: 300px;
-  height: 32px;
+  height: 36px;
+  background-color: #71b174;
 }
 
 .Title-logo {
@@ -25,7 +21,7 @@
 
 .App-content {
   position: absolute;
-  top: 41px;
+  top: 36px;
   left: 0;
   right: 0;
   bottom: 0;

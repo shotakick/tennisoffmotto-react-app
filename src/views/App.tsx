@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { GoogleMapProps } from 'react-google-maps';
 import './App.scss';
-import MainMenu from './components/MainMenu';
 import EventMap from './containers/EventMap';
 import { initialMapOptions } from './ini/EventMap';
 
@@ -13,36 +12,31 @@ interface AppState {
 class App extends React.Component<{}, AppState> {
   public constructor(props: {}) {
     super(props);
-    this.state = { initialMapOptions, maxMarkerVisibleCount: 300 };
+    this.state = { initialMapOptions, maxMarkerVisibleCount: 1000 };
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(this.setCenterPosition);
+      navigator.geolocation.getCurrentPosition(this.setDefaultPosition);
     }
   }
 
   public render() {
     return (
       <div className="App">
-        <header>
-          <MainMenu />
-          <div className="Title">
-            <img className="Title-logo" src="images/tennis-ball.png" />
-            <span className="Title-text">Tennisoff.motto</span>
-          </div>
+        <header className="Title-bar">
+          <img className="Title-logo" src="images/tennis-ball.png" />
+          <span className="Title-text">Tennisoff.motto</span>
         </header>
-
         <div className="App-content">
           <EventMap
             {...this.state.initialMapOptions}
             maxMarkerVisibleCount={this.state.maxMarkerVisibleCount}
           />
         </div>
-        <footer />
       </div>
     );
   }
 
-  private setCenterPosition = (pos: Position) => {
+  private setDefaultPosition = (pos: Position) => {
     this.setState({
       initialMapOptions: {
         ...this.state.initialMapOptions,
