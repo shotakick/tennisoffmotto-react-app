@@ -59,7 +59,6 @@ const mapStateToProps = (
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({ dispatch });
 
 const mergeProps = (
-  // { fetchingKeyword, fetchingFilters, ...stateProps }: OwnState,
   state: OwnState,
   { dispatch }: { dispatch: Dispatch<Action<any>> },
   props: OwnProps
