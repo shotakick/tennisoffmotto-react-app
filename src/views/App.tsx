@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { GoogleMapProps } from 'react-google-maps';
 import './App.scss';
+import AppFooter from './containers/AppFooter';
 import AppHeader from './containers/AppHeader';
 import EventMap from './containers/EventMap';
 import { initialMapOptions } from './ini/EventMap';
@@ -32,6 +33,9 @@ class App extends React.Component<{}, AppState> {
             maxMarkerVisibleCount={this.state.maxMarkerVisibleCount}
           />
         </div>
+        {/* <footer className="App-footer">
+          <AppFooter />
+        </footer> */}
       </div>
     );
   }

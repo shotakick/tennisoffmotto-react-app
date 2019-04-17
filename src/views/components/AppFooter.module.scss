@@ -1,0 +1,17 @@
+.AppFooter-enter {
+  height: 0;
+}
+
+.AppFooter-enter-active {
+  height: 200px;
+  transition: height 200ms ease-out;
+}
+
+.AppFooter-exit {
+  height: 200px;
+}
+
+.AppFooter-exit-active {
+  height: 0;
+  transition: height 200ms ease-out;
+}
