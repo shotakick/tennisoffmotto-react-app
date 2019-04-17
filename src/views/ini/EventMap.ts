@@ -9,6 +9,7 @@ export const initialMapOptions: GoogleMapProps = {
   defaultOptions: {
     mapTypeControl: false,
     streetViewControl: false,
+    fullscreenControl: true,
     // zoomControl: false,
     scaleControl: true,
     rotateControl: false,
