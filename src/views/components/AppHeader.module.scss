@@ -1,0 +1,30 @@
+.AppHeader {
+  // display: flex;
+  // justify-content: center;
+  // position: relative;
+  text-align: center;
+  background-color: #71b174;
+  height: 100%;
+}
+
+.AppLogo {
+  height: 32pt;
+  width: 32pt;
+  vertical-align: middle;
+  margin-bottom: 8px;
+}
+
+.TitleText {
+  vertical-align: middle;
+  margin-left: 5px;
+  font-family: "Libre Baskerville", sans-serif;
+  font-size: 32px;
+  color: white;
+}
+
+// .SettingButton {
+//   position: absolute;
+//   right: 5px;
+//   margin-top: 3px;
+//   cursor: pointer;
+// }

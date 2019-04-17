@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { GoogleMapProps } from 'react-google-maps';
 import './App.scss';
+import AppHeader from './containers/AppHeader';
 import EventMap from './containers/EventMap';
 import { initialMapOptions } from './ini/EventMap';
 
@@ -22,11 +23,10 @@ class App extends React.Component<{}, AppState> {
   public render() {
     return (
       <div className="App">
-        <header className="Title-bar">
-          <img className="Title-logo" src="images/tennis-ball.png" />
-          <span className="Title-text">Tennisoff.motto</span>
+        <header className="App-header">
+          <AppHeader />
         </header>
-        <div className="App-content">
+        <div className="App-main">
           <EventMap
             {...this.state.initialMapOptions}
             maxMarkerVisibleCount={this.state.maxMarkerVisibleCount}

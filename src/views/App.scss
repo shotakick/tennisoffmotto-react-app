@@ -1,28 +1,19 @@
-.Title-bar {
-  left: 0;
-  right: 0;
-  text-align: center;
-  height: 36px;
-  background-color: #71b174;
+.App {
+  // height: 100vh;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 46px 1fr auto;
+  grid-template-areas: "header" "main" "footer";
 }
 
-.Title-logo {
-  vertical-align: middle;
-  margin-bottom: 3px;
+.App-header {
+  grid-area: header;
 }
 
-.Title-text {
-  vertical-align: middle;
-  margin-left: 5px;
-  font-family: "Libre Baskerville", sans-serif;
-  font-size: 26px;
-  color: white;
+.App-main {
+  grid-area: main;
 }
 
-.App-content {
-  position: absolute;
-  top: 36px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.App-footer {
+  grid-area: footer;
 }
