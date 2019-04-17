@@ -36,11 +36,11 @@ export type EventMapProps = {
 export const EventMap: React.FC<EventMapProps> = ({
   mapRef,
   eventGroupListByPosition,
-  autoFetchingMode,
-  isFetching,
   startFetching,
   cancelFetching,
   setFetchingBounds,
+  autoFetchingMode,
+  isFetching,
   ...mapProps
 }) => {
   const presentPosition = usePresentPosition();
