@@ -16,9 +16,9 @@
   * [TypeScript](https://www.typescriptlang.org/)
 
 * Linter and Code Formatter
-  * TSLint
-  * stylelint
-  * Prettier
+  * [TSLint](https://palantir.github.io/tslint/)
+  * [stylelint](https://github.com/stylelint/stylelint)
+  * [Prettier](https://prettier.io/)
 
 * View
   * [React](https://reactjs.org/)
@@ -32,12 +32,12 @@
   * [Redux](https://0-to-1.github.io/redux/)
     * Library
       * [React Redux](https://react-redux.js.org/)
-      * typescript-fsa
-      * Reselect
+      * [typescript-fsa](https://github.com/aikoven/typescript-fsa)
+      * [Reselect](https://github.com/reduxjs/reselect)
     * Middleware
       * [redux-saga](https://github.com/redux-saga/redux-saga/blob/master/README_ja.md)
     * File Structure
-      * Re-ducks
+      * [Re-ducks](https://github.com/alexnm/re-ducks)
 
 * UI Components
   * [Semantic UI React](https://react.semantic-ui.com)
@@ -60,6 +60,9 @@
 * Testing
   * TODO
 
+* CI/CD
+  * TODO
+
 * Dev Tools
   * [React Developer Tools](https://github.com/facebook/react-devtools)
     * [Chrome extension](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
@@ -74,7 +77,17 @@
 ## 各種ツールバージョン
 * Git
   * version 2.20.1.windows.1
+* Node.js
+  * 10.15.3
 * Yarn
   * 1.12.3
 * create-react-app
-  * 2.1.2
+  * 2.1.6
+
+# 進捗
+  * 80%
+
+## TODO
+* 絞り込み検索用フォームの追加
+* ログイン機能の追加
+* 絞り込み検索結果リストの追加
