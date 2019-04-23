@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   GoogleMap,
   GoogleMapProps,
+  InfoWindow,
   Marker,
   withGoogleMap,
   WithGoogleMapProps,
@@ -20,7 +21,7 @@ import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
 import PresentLocationMapControlButton from './common/PresentLocationMapControlButton';
 import EventFetchButton from './EventFetchButton';
-import EventInfoWindow from './EventInfoWindow';
+import EventList from './EventList';
 import EventMapMarker from './EventMapMarker';
 
 export type EventMapProps = {
@@ -71,10 +72,9 @@ export const EventMap: React.FC<EventMapProps> = ({
           handleClick={toggleWindow}
         >
           {key === openedMarkerKey && (
-            <EventInfoWindow
-              events={eventGroupListByPosition[key]}
-              onCloseClick={closeWindow}
-            />
+            <InfoWindow onCloseClick={closeWindow}>
+              <EventList events={eventGroupListByPosition[key]} />
+            </InfoWindow>
           )}
         </EventMapMarker>
       ))}
