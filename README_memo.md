@@ -18,16 +18,16 @@
   * [TypeScript](https://www.typescriptlang.org/)
 
 * Linter and Code Formatter
-  * TSLint
-  * stylelint
-  * Prettier
+  * [TSLint](https://palantir.github.io/tslint/)
+  * [stylelint](https://github.com/stylelint/stylelint)
+  * [Prettier](https://prettier.io/)
 
 * View
   * [React](https://reactjs.org/)
     * CLI Tool
       * craete-react-app
     * Routing
-      * [React Router](https://github.com/ReactTraining/react-router)
+      * [React Router](https://github.com/ReactTraining/react-router) (TODO)
     * High-order Component
       * Recompose (deprecated feature)
     * React Hooks
@@ -36,8 +36,8 @@
   * [Redux](https://0-to-1.github.io/redux/)
     * Library
       * [React Redux](https://react-redux.js.org/)
-      * typescript-fsa
-      * Reselect
+      * [typescript-fsa](https://github.com/aikoven/typescript-fsa)
+      * [Reselect](https://github.com/reduxjs/reselect)
       * ~~react-router-redux~~
     * Asynchronous processing
       * ~~[ActionDispacher](https://qiita.com/uryyyyyyy/items/d8bae6a7fca1c4732696)~~
@@ -50,13 +50,15 @@
     * File Structure
       * ~~Redux Way~~
       * ~~Ducks~~
-      * Re-ducks
+      * [Re-ducks](https://github.com/alexnm/re-ducks)
   * ~~Undux~~
 
 * UI Components
   * ~~[Material-UI](https://material-ui.com/)~~
   * [Semantic UI React](https://react.semantic-ui.com)
-    * react-semantic-redux-form
+    * ~~[semantic-ui-calendar-react](https://github.com/arfedulov/semantic-ui-calendar-react)~~
+    * [ReactJS Datepicker](https://reactdatepicker.com/)
+    * [react-semantic-redux-form](https://github.com/ckshekhar/react-semantic-redux-form) (TODO)
 
 * StyleSheet
   * Sass: SCSS
@@ -80,10 +82,12 @@
   * ~~Firebase Firestore~~
   * [Algolia](https://www.algolia.com)
 
-* Testing
+* Testing (TODO)
   * [Jest](https://jestjs.io/)
     * [ts-jest](https://github.com/kulshekhar/ts-jest)
   * enzyme
+
+* CI/CD (TODO)
 
 * Dev Tools
   * [React Developer Tools](https://github.com/facebook/react-devtools)
@@ -92,7 +96,6 @@
     * ~~[Chrome extension](https://chrome.google.com/webstore/detail/react-performance-devtool/fcombecpigkkfcbfaeikoeegkmkjfbfm)~~
   * [Redux DevTools Extension](https://github.com/zalmoxisus/redux-devtools-extension)
     * [Chrome extension](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
-
 
 # 個人開発環境
 
@@ -204,6 +207,8 @@ $ yarn add -D stylelint stylelint-scss stylelint-config-recommended-scss styleli
 ## 各種ライブラリのインストール
 ```bat
 $ yarn add semantic-ui-react semantic-ui-css
+$ yarn add react-datepicker
+$ yarn add -D @types/react-datepicker
 $ yarn add react-redux redux-saga redux-logger typescript-fsa typescript-fsa-reducers redux-devtools-extension
 $ yarn add -D @types/react-redux @types/redux-logger
 $ yarn add reselect
@@ -215,6 +220,8 @@ $ yarn add react-google-maps
 $ yarn add -D @types/googlemaps @types/markerclustererplus
 $ yarn add -D node-sass
 $ yarn add moment
+$ yarn add ismobilejs
+$ yarn add -D @types/ismobilejs
 ```
 
 # デプロイ環境構築
