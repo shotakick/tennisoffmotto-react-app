@@ -88,7 +88,7 @@ export const EventMap: React.FC<EventMapProps> = ({
         onClick={panToPresentLocation}
         disabled={presentPosition === null}
       />
-      <MapControl position={google.maps.ControlPosition.LEFT_BOTTOM}>
+      <MapControl position={google.maps.ControlPosition.LEFT_TOP}>
         <AlgoliaLogo />
       </MapControl>
       <Loader active={false} inline="centered" />

@@ -1,5 +1,5 @@
 import * as React from 'react';
-const styles = require('./AlgoliaLogo.module.css');
+const styles = require('./AlgoliaLogo.module.scss');
 
 const AlgoliaLogo = () => (
   <div className={styles.AlgoliaLogo}>
