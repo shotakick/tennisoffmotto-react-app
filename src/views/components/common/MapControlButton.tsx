@@ -18,7 +18,7 @@ export const MapControlButton: React.FC<MapControlButtonProps> = ({
 }) => (
   <MapControl position={position}>
     <div className={styles.MapControlButton} title={title} onClick={onClick}>
-      <Icon color="grey" size="large" {...iconProps} />
+      <Icon className={styles.Icon} color="grey" size="large" {...iconProps} />
     </div>
   </MapControl>
 );
