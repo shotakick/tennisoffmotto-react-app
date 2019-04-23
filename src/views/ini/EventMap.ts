@@ -11,7 +11,7 @@ export const initialMapOptions: GoogleMapProps = {
     streetViewControl: false,
     fullscreenControl: true,
     // zoomControl: false,
-    scaleControl: true,
+    // scaleControl: true,
     rotateControl: false,
     gestureHandling: 'auto',
     styles: [
