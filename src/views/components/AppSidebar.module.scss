@@ -1,0 +1,27 @@
+.AppSidebar {
+  position: relative;
+  height: 100%;
+}
+
+.ModeSelector {
+  margin: 4px !important;
+}
+
+.CloseButton {
+  position: absolute;
+  right: 0;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.TopHeader {
+  margin: 0 !important;
+  @media screen and (max-width: 400px) {
+    display: none;
+  }
+}
+
+.Body {
+  height: calc(100% - 44px);
+  overflow: auto;
+}

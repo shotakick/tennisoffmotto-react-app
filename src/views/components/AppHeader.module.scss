@@ -1,30 +1,45 @@
+$background-color: #71b174;
+$color: #e0ffe2;
+$size: calc(18pt + 0.25vw);
+
 .AppHeader {
-  // display: flex;
-  // justify-content: center;
-  // position: relative;
-  text-align: center;
-  background-color: #71b174;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background-color: $background-color;
   height: 100%;
 }
 
+.Center {
+  text-align: center;
+  line-height: 40px;
+}
+
 .AppLogo {
-  height: 32pt;
-  width: 32pt;
+  height: $size;
+  width: $size;
   vertical-align: middle;
-  margin-bottom: 8px;
 }
 
 .TitleText {
   vertical-align: middle;
-  margin-left: 5px;
+  margin-left: 4px;
   font-family: "Libre Baskerville", sans-serif;
-  font-size: 32px;
-  color: white;
+  font-size: $size;
+  color: $color;
 }
 
-// .SettingButton {
-//   position: absolute;
-//   right: 5px;
-//   margin-top: 3px;
-//   cursor: pointer;
-// }
+.SidebarButton {
+  position: absolute;
+  left: 0;
+  padding: 8px;
+  color: $color;
+  cursor: pointer;
+}
+
+.SidebarToggleButton {
+  position: absolute;
+  left: 0;
+  padding: 14px 12px 10px;
+  cursor: pointer;
+}

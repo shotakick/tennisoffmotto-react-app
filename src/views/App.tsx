@@ -1,20 +1,25 @@
 import * as React from 'react';
 import { GoogleMapProps } from 'react-google-maps';
 import './App.scss';
-import AppFooter from './containers/AppFooter';
-import AppHeader from './containers/AppHeader';
+import AppHeader from './components/AppHeader';
+import AppSidebar from './containers/AppSidebar';
 import EventMap from './containers/EventMap';
 import { initialMapOptions } from './ini/EventMap';
 
 interface AppState {
   initialMapOptions: GoogleMapProps;
   maxMarkerVisibleCount: number;
+  isSidebarOpened: boolean;
 }
 
 class App extends React.Component<{}, AppState> {
   public constructor(props: {}) {
     super(props);
-    this.state = { initialMapOptions, maxMarkerVisibleCount: 1000 };
+    this.state = {
+      initialMapOptions,
+      maxMarkerVisibleCount: 1000,
+      isSidebarOpened: true
+    };
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.setDefaultPosition);
@@ -25,7 +30,10 @@ class App extends React.Component<{}, AppState> {
     return (
       <div className="App">
         <header className="App-header">
-          <AppHeader />
+          <AppHeader
+            isSidebarOpened={this.state.isSidebarOpened}
+            toggleSidebarOpen={this.toggleSidebarOpen}
+          />
         </header>
         <div className="App-main">
           <EventMap
@@ -33,9 +41,17 @@ class App extends React.Component<{}, AppState> {
             maxMarkerVisibleCount={this.state.maxMarkerVisibleCount}
           />
         </div>
-        {/* <footer className="App-footer">
-          <AppFooter />
-        </footer> */}
+        <div
+          className={
+            this.state.isSidebarOpened ? 'App-sidebar' : 'App-sidebar-hidden'
+          }
+        >
+          <AppSidebar
+            isOpened={this.state.isSidebarOpened}
+            toggleOpen={this.toggleSidebarOpen}
+          />
+        </div>
+        <footer className="App-footer" />
       </div>
     );
   }
@@ -50,6 +66,10 @@ class App extends React.Component<{}, AppState> {
         }
       }
     });
+  };
+
+  private toggleSidebarOpen = () => {
+    this.setState({ isSidebarOpened: !this.state.isSidebarOpened });
   };
 }
 

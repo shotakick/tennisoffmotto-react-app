@@ -1,9 +1,11 @@
+$header-height-size: 46px;
+$sidebar-height-size: 280px;
+
 .App {
-  // height: 100vh;
   height: 100%;
   display: grid;
-  grid-template-rows: 46px 1fr auto;
-  grid-template-areas: "header" "main" "footer";
+  grid-template-rows: $header-height-size 1fr auto auto;
+  grid-template-areas: "header" "main" "sidebar" "footer";
 }
 
 .App-header {
@@ -12,6 +14,20 @@
 
 .App-main {
   grid-area: main;
+}
+
+.App-sidebar {
+  grid-area: sidebar;
+  overflow: hidden;
+  transition: height 200ms ease-out;
+  height: $sidebar-height-size;
+}
+
+.App-sidebar-hidden {
+  grid-area: sidebar;
+  overflow: hidden;
+  transition: height 200ms ease-out;
+  height: 0;
 }
 
 .App-footer {

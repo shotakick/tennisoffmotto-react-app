@@ -28,6 +28,7 @@
     // "trailing-comma": false,
     "object-shorthand-properties-first":false,
     "no-boolean-literal-compare": false,
-    "react-hooks-nesting": "error"
+    "react-hooks-nesting": "error",
+    "import-name": false
   }
 }
