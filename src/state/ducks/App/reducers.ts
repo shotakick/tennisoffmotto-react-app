@@ -3,12 +3,10 @@ import { actionCreators } from './actions';
 
 export type AppState = {
   autoFetchingMode: boolean;
-  visibleAppFooter: boolean;
 };
 
 const initialState: AppState = {
-  autoFetchingMode: true,
-  visibleAppFooter: false
+  autoFetchingMode: true
 };
 
 export const appStateReducer = reducerWithInitialState<AppState>(initialState)
@@ -19,14 +17,6 @@ export const appStateReducer = reducerWithInitialState<AppState>(initialState)
   .case(actionCreators.toggleAutoFetchingMode, state => ({
     ...state,
     autoFetchingMode: !state.autoFetchingMode
-  }))
-  .case(actionCreators.setVisibleAppFooter, (state, { visibleAppFooter }) => ({
-    ...state,
-    visibleAppFooter
-  }))
-  .case(actionCreators.toggleVisibleAppFooter, state => ({
-    ...state,
-    visibleAppFooter: !state.visibleAppFooter
   }))
   .build();
 export default appStateReducer;
