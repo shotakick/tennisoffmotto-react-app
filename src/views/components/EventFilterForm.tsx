@@ -130,7 +130,7 @@ export const EventFilterForm: React.FC<EventFilterFormProps> = () => {
         </Form.Group>
 
         <Form.Field>
-          <label hidden={isMobile.phone}>フリーワード</label>
+          {!isMobile.phone && <label>フリーワード</label>}
           <Input placeholder="Input keyword" />
         </Form.Field>
 
