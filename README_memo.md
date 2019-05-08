@@ -64,6 +64,7 @@
   * Sass: SCSS
   * CSS-Modules
   * ~~CSS in JS~~
+  	* ~~[styled-components](https://www.styled-components.com/)~~
 
 * Library
   * ~~[axios](https://github.com/axios/axios)~~
@@ -190,7 +191,7 @@ $ yarn -v
 ```bat
 $ npx create-react-app -V
   2.1.8
-$ npx create-react-app tennisoffmotto-react-app typescript
+$ npx create-react-app tennisoffmotto-react-app --typescript
 $ cd tennisoffmotto-react-app
 ```
 
