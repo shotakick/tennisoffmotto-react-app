@@ -6,7 +6,7 @@ import ReactDatePicker, {
   registerLocale
 } from 'react-datepicker';
 import ReactDOM from 'react-dom';
-import { Input } from 'semantic-ui-react';
+import { Input, InputProps } from 'semantic-ui-react';
 import './CustomDatePicker.scss';
 
 registerLocale('ja', ja);
@@ -18,19 +18,20 @@ const PopperContainer: React.FC = ({ children }) => {
 
 // https://github.com/Hacker0x01/react-datepicker/issues/1640
 // https://github.com/Hacker0x01/react-datepicker/issues/1480
-const ReadOnlyInput: React.FC = props => {
+const ReadOnlyInput = React.forwardRef<Input, InputProps>((props, ref) => {
   const [state, setState] = React.useState(false);
   const setReadOnly = React.useCallback(() => setState(true), [setState]);
   const unsetReadOnly = React.useCallback(() => setState(false), [setState]);
   return (
     <Input
       {...props}
+      ref={ref}
       onFocus={setReadOnly}
       onBlur={unsetReadOnly}
       readOnly={state}
     />
   );
-};
+});
 
 export const CustomDatePicker: React.FC<ReactDatePickerProps> = props => (
   <ReactDatePicker
