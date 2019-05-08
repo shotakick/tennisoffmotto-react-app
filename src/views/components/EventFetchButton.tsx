@@ -5,12 +5,12 @@ import MapControlButton, {
 
 export const EventFetchButton: React.FC<
   MapControlButtonProps & { isFetching: boolean }
-> = props => (
+> = ({ isFetching, ...restProps }) => (
   <MapControlButton
-    {...props}
+    {...restProps}
     title="イベント取得"
-    name={props.isFetching ? 'spinner' : 'sync'}
-    loading={props.isFetching}
+    name={isFetching ? 'spinner' : 'sync'}
+    loading={isFetching}
   />
 );
 export default EventFetchButton;
