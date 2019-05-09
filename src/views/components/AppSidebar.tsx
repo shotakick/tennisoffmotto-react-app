@@ -58,7 +58,7 @@ const ModeSelectButton: React.FC<
   );
 };
 
-export interface AppSidebarProps {
+export interface Props {
   isOpened?: boolean;
   toggleOpen?: () => void;
   hitsCount?: number;
@@ -72,7 +72,7 @@ enum Mode {
 }
 
 // TODO 気が向いたらTab部品で作り直す
-export const AppSidebar: React.FC<AppSidebarProps> = props => {
+export const AppSidebar: React.FC<Props> = props => {
   const [currentMode, setMode] = React.useState(Mode.FILTERS);
 
   return (

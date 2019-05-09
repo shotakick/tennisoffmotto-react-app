@@ -1,13 +1,21 @@
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { ReduxRootState } from '../../state/ducks';
-import AppSidebar, { AppSidebarProps } from '../components/AppSidebar';
+import InnerComponent, { Props as InnerProps } from '../components/AppSidebar';
 
-type StateProps = Pick<AppSidebarProps, 'hitsCount' | 'events' | 'isFetching'>;
-export default connect<StateProps, {}, {}, ReduxRootState>(
-  ({ tennisEvents }) => ({
-    hitsCount: tennisEvents.hitsCount,
-    events: tennisEvents.events,
-    isFetching: tennisEvents.isFetching
-  }),
-  {}
-)(AppSidebar);
+type StateProps = Pick<InnerProps, 'hitsCount' | 'events' | 'isFetching'>;
+type DispatchProps = {};
+type OwnProps = InnerProps;
+
+const mapStateToProps = (state: ReduxRootState): StateProps => ({
+  hitsCount: state.tennisEvents.result.hitsCount,
+  events: state.tennisEvents.result.events,
+  isFetching: state.tennisEvents.isFetching
+});
+
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InnerComponent);

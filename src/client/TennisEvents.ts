@@ -86,7 +86,7 @@ export type FetchingFilters = RequireOne<{
 
 export type FetchingParams = {
   bounds?: google.maps.LatLngBoundsLiteral;
-  keyword: string;
+  keyword?: string;
   filters?: FetchingFilters;
 };
 
@@ -99,7 +99,7 @@ export async function fetchEvents(
   const { hits, nbHits } = await Algolia.search({
     attributesToRetrieve,
     restrictSearchableAttributes,
-    query: params.keyword,
+    query: params.keyword || '',
     insideBoundingBox,
     filters
   });

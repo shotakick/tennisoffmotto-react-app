@@ -9,8 +9,8 @@ import { Action } from 'typescript-fsa';
 import { FetchingFilters } from '../../client/TennisEvents';
 import { ReduxRootState } from '../../state/ducks';
 import {
-  actionCreators,
-  getGroupedEventsByPointWithLimit
+  getGroupedEventsByPointWithLimit,
+  tennisEventsActions
 } from '../../state/ducks/TennisEvents';
 import EventMap, {
   EventMapProps as ComponentProps
@@ -32,10 +32,7 @@ type StateProps = Pick<
   ComponentProps,
   'eventGroupListByPosition' | 'autoFetchingMode' | 'isFetching'
 >;
-type OwnState = StateProps & {
-  fetchingKeyword: string;
-  fetchingFilters?: FetchingFilters;
-};
+type OwnState = StateProps & {};
 type DispatchProps = Pick<
   ComponentProps,
   'startFetching' | 'cancelFetching' | 'setFetchingBounds'
@@ -51,9 +48,7 @@ const mapStateToProps = (
     zoomLevel: mapRef.current ? mapRef.current.getZoom() : 1
   }),
   autoFetchingMode: state.app.autoFetchingMode,
-  isFetching: state.tennisEvents.isFetching,
-  fetchingKeyword: state.tennisEvents.fetchingParams.keyword,
-  fetchingFilters: state.tennisEvents.fetchingParams.filters
+  isFetching: state.tennisEvents.isFetching
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({ dispatch });
@@ -65,21 +60,23 @@ const mergeProps = (
 ): OwnProps => ({
   ...props,
   ...state,
-  startFetching: (withDalay?: boolean) =>
+  startFetching: (withDalay?: boolean) => {
     dispatch(
-      actionCreators.requestFetchTennisEvents({
-        keyword: state.fetchingKeyword,
-        filters: state.fetchingFilters,
-        bounds: (props.mapRef.current as GoogleMap).getBounds().toJSON(),
+      tennisEventsActions.setFetchingParams({
+        bounds: (props.mapRef.current as GoogleMap).getBounds().toJSON()
+      })
+    );
+    dispatch(
+      tennisEventsActions.requestFetchTennisEvents({
         fetchingDelay: withDalay ? DELAY_AMOUNT_FOR_FETCHING_START : 0
       })
-    ),
-  cancelFetching: () => dispatch(actionCreators.cancelFetchingTennisEvents()),
+    );
+  },
+  cancelFetching: () =>
+    dispatch(tennisEventsActions.cancelFetchingTennisEvents()),
   setFetchingBounds: () =>
     dispatch(
-      actionCreators.setFetchingParams({
-        keyword: state.fetchingKeyword,
-        filters: state.fetchingFilters,
+      tennisEventsActions.setFetchingParams({
         bounds: (props.mapRef.current as GoogleMap).getBounds().toJSON()
       })
     )

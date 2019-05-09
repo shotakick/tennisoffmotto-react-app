@@ -1,11 +1,23 @@
-import { call, delay, put, race, take, takeLatest } from 'redux-saga/effects';
+import {
+  call,
+  delay,
+  put,
+  race,
+  select,
+  take,
+  takeLatest
+} from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import * as Api from '../../../client/TennisEvents';
-import { actionCreators, RequestFetchTennisEventsPayload } from './actions';
+import {
+  RequestFetchTennisEventsPayload,
+  tennisEventsActions as actions
+} from './actions';
+import { selectFetchingParams } from './selectors';
 
 export function* tennisEventsSaga() {
   yield takeLatest(
-    actionCreators.requestFetchTennisEvents.type,
+    actions.requestFetchTennisEvents.type,
     handleFetchEventsRequest
   );
 }
@@ -14,34 +26,38 @@ function* handleFetchEventsRequest(
   action: Action<RequestFetchTennisEventsPayload>
 ) {
   yield race({
-    task: call(asyncFetchEventsWithDelay, action.payload),
-    cancel: take(actionCreators.cancelFetchingTennisEvents.type),
-    cancelByChangeParams: take(actionCreators.setViewingFilter.type)
+    task: call(fetchEvents, action.payload),
+    cancel: take(actions.cancelFetchingTennisEvents.type),
+    cancelByChangeParams: take(actions.setFetchingParams.type)
   });
 }
 
-function* asyncFetchEventsWithDelay(params: RequestFetchTennisEventsPayload) {
+function* fetchEvents(params: RequestFetchTennisEventsPayload) {
   if (params.fetchingDelay) {
     yield delay(params.fetchingDelay);
   }
 
-  yield put(actionCreators.asyncFetchTennisEvents.started(params));
+  const fetchingParams = yield select(selectFetchingParams);
+
+  yield put(actions.asyncFetchTennisEvents.started(fetchingParams));
 
   try {
-    const result: Api.FetchedResult = yield call(Api.fetchEvents, params);
+    const result: Api.FetchedResult = yield call(
+      Api.fetchEvents,
+      fetchingParams
+    );
 
     yield put(
-      actionCreators.asyncFetchTennisEvents.done({
-        params,
+      actions.asyncFetchTennisEvents.done({
+        params: fetchingParams,
         result
       })
     );
-  } catch (err) {
-    console.error(`failed fetchEvents: ${err}`);
+  } catch (error) {
     yield put(
-      actionCreators.asyncFetchTennisEvents.failed({
-        params,
-        error: { message: err }
+      actions.asyncFetchTennisEvents.failed({
+        params: fetchingParams,
+        error
       })
     );
   }

@@ -4,6 +4,10 @@ import { TennisEventInfo } from '../../../client/TennisEvents';
 import { toGroupObjectsByKey } from '../../../utils/ObjectUtils';
 import { ViewingFilter } from './types';
 
+export const selectFetchingParams = (state: ReduxRootState) => {
+  return state.tennisEvents.fetchingParams;
+};
+
 // Selectors with memorized
 export const getFilterringEvents = createSelector<
   ReduxRootState,
@@ -11,7 +15,7 @@ export const getFilterringEvents = createSelector<
   ViewingFilter,
   TennisEventInfo[]
 >(
-  state => state.tennisEvents.events,
+  state => state.tennisEvents.result.events,
   state => state.tennisEvents.viewingFilter,
   (events, filter) => events.filter(e => isMatchedFilter(e, filter))
 );

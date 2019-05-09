@@ -3,8 +3,8 @@ import { FetchedResult, FetchingParams } from '../../../client/TennisEvents';
 import { ViewingFilter } from './types';
 
 // Action creators
-const factory = actionCreatorFactory();
-export const actionCreators = {
+const factory = actionCreatorFactory('TENNIS_EVENTS');
+export const tennisEventsActions = {
   requestFetchTennisEvents: factory<RequestFetchTennisEventsPayload>(
     'REQUEST_FETCH_TENNIS_EVENTS'
   ),
@@ -19,6 +19,6 @@ export const actionCreators = {
 };
 
 // Payload
-export type RequestFetchTennisEventsPayload = {
+export interface RequestFetchTennisEventsPayload {
   fetchingDelay?: number;
-} & FetchingParams;
+}

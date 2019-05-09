@@ -1,48 +1,43 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { FetchedResult, FetchingParams } from '../../../client/TennisEvents';
-import { actionCreators } from './actions';
+import { tennisEventsActions as actions } from './actions';
 import { ViewingFilter } from './types';
 
-export interface TennisEventsState extends FetchedResult {
+export interface TennisEventsState {
+  result: FetchedResult;
   fetchingParams: FetchingParams;
   viewingFilter: ViewingFilter;
   isFetching: boolean;
 }
 
 const initialState: TennisEventsState = {
-  events: [],
-  hitsCount: 0,
+  result: { events: [], hitsCount: 0 },
   fetchingParams: { keyword: '' },
   viewingFilter: {},
   isFetching: false
 };
 
-export const tennisEventsReducer = reducerWithInitialState<TennisEventsState>(
-  initialState
-)
-  .case(actionCreators.asyncFetchTennisEvents.started, (state, payload) => ({
+export default reducerWithInitialState<TennisEventsState>(initialState)
+  .case(actions.asyncFetchTennisEvents.started, (state, payload) => ({
     ...state,
-    fetchingParams: { ...payload },
+    fetchingParams: payload,
     isFetching: true
   }))
-  .case(actionCreators.asyncFetchTennisEvents.done, (state, payload) => ({
+  .case(actions.asyncFetchTennisEvents.done, (state, payload) => ({
     ...state,
-    ...payload.result,
+    result: payload.result,
     isFetching: false
   }))
-  .case(actionCreators.asyncFetchTennisEvents.failed, (state, payload) => ({
+  .case(actions.asyncFetchTennisEvents.failed, (state, payload) => ({
     ...state,
-    events: [],
-    hitsCount: 0,
     isFetching: false
   }))
-  .case(actionCreators.setFetchingParams, (state, payload) => ({
+  .case(actions.setFetchingParams, (state, payload) => ({
     ...state,
-    fetchingParams: payload
+    fetchingParams: { ...state.fetchingParams, ...payload }
   }))
-  .case(actionCreators.setViewingFilter, (state, payload) => ({
+  .case(actions.setViewingFilter, (state, payload) => ({
     ...state,
     viewingFilter: payload
   }))
   .build();
-export default tennisEventsReducer;
