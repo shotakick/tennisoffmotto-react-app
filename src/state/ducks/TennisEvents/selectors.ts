@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { ReduxRootState } from '..';
 import { TennisEventInfo } from '../../../client/TennisEvents';
-import { toGroupObjectsByKey } from '../../../utils';
+import { toGroupObjectsByKey } from '../../../utils/ObjectUtils';
 import { ViewingFilter } from './types';
 
 // Selectors with memorized
