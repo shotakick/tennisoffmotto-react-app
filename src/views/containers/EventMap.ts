@@ -6,15 +6,12 @@ import { connect } from 'react-redux';
 import { compose, Omit, pure, setDisplayName, withProps } from 'recompose';
 import { Dispatch } from 'redux';
 import { Action } from 'typescript-fsa';
-import { FetchingFilters } from '../../client/TennisEvents';
 import { ReduxRootState } from '../../state/ducks';
 import {
   getGroupedEventsByPointWithLimit,
   tennisEventsActions
 } from '../../state/ducks/TennisEvents';
-import EventMap, {
-  EventMapProps as ComponentProps
-} from '../components/EventMap';
+import EventMap, { Props as ComponentProps } from '../components/EventMap';
 
 // Constants
 const DELAY_AMOUNT_FOR_FETCHING_START = 200;
@@ -30,7 +27,7 @@ type PublicProps = Omit<
 >;
 type StateProps = Pick<
   ComponentProps,
-  'eventGroupListByPosition' | 'autoFetchingMode' | 'isFetching'
+  'eventGroupListByPosition' | 'autoFetchingMode'
 >;
 type OwnState = StateProps & {};
 type DispatchProps = Pick<
@@ -47,8 +44,7 @@ const mapStateToProps = (
     maxCount: maxMarkerVisibleCount,
     zoomLevel: mapRef.current ? mapRef.current.getZoom() : 1
   }),
-  autoFetchingMode: state.app.autoFetchingMode,
-  isFetching: state.tennisEvents.isFetching
+  autoFetchingMode: state.app.autoFetchingMode
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({ dispatch });

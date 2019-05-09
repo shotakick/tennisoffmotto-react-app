@@ -17,31 +17,29 @@ import {
   useEventInfoWindowControl,
   usePanTo
 } from '../../views/hooks/EventMap';
+import EventFetchButton from '../containers/EventFetchButton';
 import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
 import PresentLocationMapControlButton from './common/PresentLocationMapControlButton';
-import EventFetchButton from './EventFetchButton';
 import EventList from './EventList';
 import EventMapMarker from './EventMapMarker';
 
-export interface EventMapProps extends GoogleMapProps {
+export interface Props extends GoogleMapProps {
   mapRef: React.RefObject<GoogleMap>;
   eventGroupListByPosition: { [key: string]: TennisEventInfo[] };
   startFetching: (withDalay?: boolean) => void;
   cancelFetching: () => void;
   setFetchingBounds: () => void;
   autoFetchingMode: boolean;
-  isFetching: boolean;
 }
 
-export const EventMap: React.FC<EventMapProps> = ({
+export const EventMap: React.FC<Props> = ({
   mapRef,
   eventGroupListByPosition,
   startFetching,
   cancelFetching,
   setFetchingBounds,
   autoFetchingMode,
-  isFetching,
   ...mapProps
 }) => {
   const presentPosition = usePresentPosition();
@@ -78,11 +76,7 @@ export const EventMap: React.FC<EventMapProps> = ({
           )}
         </EventMapMarker>
       ))}
-      <EventFetchButton
-        position={google.maps.ControlPosition.RIGHT_TOP}
-        onClick={startFetching}
-        isFetching={isFetching}
-      />
+      <EventFetchButton position={google.maps.ControlPosition.RIGHT_TOP} />
       <PresentLocationMapControlButton
         position={google.maps.ControlPosition.RIGHT_BOTTOM}
         onClick={panToPresentLocation}
@@ -110,7 +104,7 @@ const initialGoogleMapProps: WithScriptjsProps | WithGoogleMapProps = {
   })
 };
 
-export default compose<EventMapProps, EventMapProps>(
+export default compose<Props, Props>(
   setDisplayName('EventMapComponent'),
   withProps(initialGoogleMapProps),
   withScriptjs,

@@ -3,9 +3,14 @@ import MapControlButton, {
   MapControlButtonProps
 } from './common/MapControlButton';
 
-export const EventFetchButton: React.FC<
-  MapControlButtonProps & { isFetching: boolean }
-> = ({ isFetching, ...restProps }) => (
+export interface Props extends MapControlButtonProps {
+  isFetching: boolean;
+}
+
+export const EventFetchButton: React.FC<Props> = ({
+  isFetching,
+  ...restProps
+}) => (
   <MapControlButton
     {...restProps}
     title="イベント取得"
