@@ -3,11 +3,11 @@ import { FetchedResult, FetchingParams } from '../../../client/TennisEvents';
 import { actionCreators } from './actions';
 import { ViewingFilter } from './types';
 
-export type TennisEventsState = FetchedResult & {
+export interface TennisEventsState extends FetchedResult {
   fetchingParams: FetchingParams;
   viewingFilter: ViewingFilter;
   isFetching: boolean;
-};
+}
 
 const initialState: TennisEventsState = {
   events: [],

@@ -6,9 +6,9 @@ import { createPortal } from 'react-dom';
 // const { MAP } = require('react-google-maps/lib/constants');
 const MAP = '__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED';
 
-type Props = {
+interface Props extends React.ComponentProps<'div'> {
   position: google.maps.ControlPosition;
-} & React.ComponentProps<'div'>;
+}
 
 export default class MapControl extends React.Component<Props> {
   static contextTypes = { [MAP]: PropTypes.object };

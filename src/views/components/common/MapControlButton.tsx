@@ -4,11 +4,11 @@ import MapControl from './MapControl';
 const styles = require('./MapControlButton.module.scss');
 // import * as styles from './MapControlButton.module.scss'; // TODO: https://github.com/Jimdo/typings-for-css-modules-loader
 
-export type MapControlButtonProps = IconProps & {
+export interface MapControlButtonProps extends IconProps {
   position: google.maps.ControlPosition;
   title?: string;
   onClick?: () => void;
-};
+}
 
 export const MapControlButton: React.FC<MapControlButtonProps> = ({
   position,

@@ -6,11 +6,11 @@ const ballIcon: google.maps.Icon = { url: 'images/tennis-ball.png' };
 
 type Key = string;
 
-export type EventMapMarkerProps = {
+export interface EventMapMarkerProps {
   key_: Key;
   events: TennisEventInfo[];
   handleClick: (key: Key) => void;
-};
+}
 
 export const EventMapMarker: React.FC<EventMapMarkerProps> = ({
   key_,

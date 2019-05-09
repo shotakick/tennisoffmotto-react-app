@@ -24,7 +24,7 @@ import EventFetchButton from './EventFetchButton';
 import EventList from './EventList';
 import EventMapMarker from './EventMapMarker';
 
-export type EventMapProps = {
+export interface EventMapProps extends GoogleMapProps {
   mapRef: React.RefObject<GoogleMap>;
   eventGroupListByPosition: { [key: string]: TennisEventInfo[] };
   startFetching: (withDalay?: boolean) => void;
@@ -32,7 +32,7 @@ export type EventMapProps = {
   setFetchingBounds: () => void;
   autoFetchingMode: boolean;
   isFetching: boolean;
-} & GoogleMapProps;
+}
 
 export const EventMap: React.FC<EventMapProps> = ({
   mapRef,
