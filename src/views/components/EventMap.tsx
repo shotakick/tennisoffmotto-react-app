@@ -12,6 +12,7 @@ import {
 import { compose, setDisplayName, withProps } from 'recompose';
 import { Loader } from 'semantic-ui-react';
 import { TennisEventInfo } from '../../client/TennisEvents';
+import { Omit } from '../../utils/TypeUtils';
 import { usePresentPosition } from '../../views/hooks/common/geolocation';
 import {
   useEventInfoWindowControl,
@@ -24,24 +25,17 @@ import PresentLocationMapControlButton from './common/PresentLocationMapControlB
 import EventList from './EventList';
 import EventMapMarker from './EventMapMarker';
 
-export interface Props extends GoogleMapProps {
-  mapRef: React.RefObject<GoogleMap>;
+export type Props = Omit<GoogleMapProps, 'onIdle'> & {
   eventGroupListByPosition: { [key: string]: TennisEventInfo[] };
-  startFetching: (withDalay?: boolean) => void;
-  cancelFetching: () => void;
-  setFetchingBounds: () => void;
-  autoFetchingMode: boolean;
-}
+  onIdle(zoomLevel: number, bounds: google.maps.LatLngBounds): void;
+};
 
-export const EventMap: React.FC<Props> = ({
-  mapRef,
+const EventMap: React.FC<Props> = ({
   eventGroupListByPosition,
-  startFetching,
-  cancelFetching,
-  setFetchingBounds,
-  autoFetchingMode,
+  onIdle,
   ...mapProps
 }) => {
+  const mapRef = React.useRef<GoogleMap>(null);
   const presentPosition = usePresentPosition();
   const {
     openedMarkerKey,
@@ -49,10 +43,11 @@ export const EventMap: React.FC<Props> = ({
     toggleWindow
   } = useEventInfoWindowControl();
   const panToPresentLocation = usePanTo(mapRef.current, presentPosition);
-  const handleIdle = React.useCallback(
-    () => (autoFetchingMode ? startFetching(true) : setFetchingBounds()),
-    [autoFetchingMode, startFetching, setFetchingBounds]
-  );
+  const handleIdle = React.useCallback(() => {
+    if (mapRef.current) {
+      onIdle(mapRef.current.getZoom(), mapRef.current.getBounds());
+    }
+  }, [onIdle, mapRef.current]);
 
   return (
     <GoogleMap

@@ -1,97 +1,70 @@
-// implemented by HOC. (recompose and react-redux)
-
-import * as React from 'react';
 import { GoogleMap } from 'react-google-maps';
 import { connect } from 'react-redux';
-import { compose, Omit, pure, setDisplayName, withProps } from 'recompose';
 import { Dispatch } from 'redux';
-import { Action } from 'typescript-fsa';
 import { ReduxRootState } from '../../state/ducks';
+import { appActions, AppState } from '../../state/ducks/App';
 import {
   getGroupedEventsByPointWithLimit,
   tennisEventsActions
 } from '../../state/ducks/TennisEvents';
-import EventMap, { Props as ComponentProps } from '../components/EventMap';
+import InnerComponent, { Props as InnerProps } from '../components/EventMap';
 
-// Constants
 const DELAY_AMOUNT_FOR_FETCHING_START = 200;
 
-// Types
-interface InjectedProps {
+type StateProps = Pick<InnerProps, 'eventGroupListByPosition'> &
+  Pick<AppState, 'autoFetchingMode'>;
+type DispatchProps = { dispatch: Dispatch };
+type MergedProps = Pick<
+  InnerProps,
+  'eventGroupListByPosition' | 'onIdle' | 'onBoundsChanged'
+>;
+type OwnProps = InnerProps & {
   maxMarkerVisibleCount: number;
-}
-type OwnProps = ComponentProps & InjectedProps;
-type PublicProps = Omit<
-  OwnProps,
-  keyof StateProps | keyof DispatchProps | 'mapRef'
->;
-type StateProps = Pick<
-  ComponentProps,
-  'eventGroupListByPosition' | 'autoFetchingMode'
->;
-type OwnState = StateProps & {};
-type DispatchProps = Pick<
-  ComponentProps,
-  'startFetching' | 'cancelFetching' | 'setFetchingBounds'
->;
+};
 
-// Sub functions for Enhancer(redux connection)
 const mapStateToProps = (
   state: ReduxRootState,
-  { maxMarkerVisibleCount, mapRef }: OwnProps
-): OwnState => ({
+  { maxMarkerVisibleCount }: OwnProps
+): StateProps => ({
   eventGroupListByPosition: getGroupedEventsByPointWithLimit(state, {
     maxCount: maxMarkerVisibleCount,
-    zoomLevel: mapRef.current ? mapRef.current.getZoom() : 1
+    zoomLevel: state.app.mapZoomLevel
   }),
   autoFetchingMode: state.app.autoFetchingMode
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<Action<any>>) => ({ dispatch });
-
-const mergeProps = (
-  state: OwnState,
-  { dispatch }: { dispatch: Dispatch<Action<any>> },
-  props: OwnProps
-): OwnProps => ({
-  ...props,
-  ...state,
-  startFetching: (withDalay?: boolean) => {
-    dispatch(
-      tennisEventsActions.setFetchingParams({
-        bounds: (props.mapRef.current as GoogleMap).getBounds().toJSON()
-      })
-    );
-    dispatch(
-      tennisEventsActions.requestFetchTennisEvents({
-        fetchingDelay: withDalay ? DELAY_AMOUNT_FOR_FETCHING_START : 0
-      })
-    );
-  },
-  cancelFetching: () =>
-    dispatch(tennisEventsActions.cancelFetchingTennisEvents()),
-  setFetchingBounds: () =>
-    dispatch(
-      tennisEventsActions.setFetchingParams({
-        bounds: (props.mapRef.current as GoogleMap).getBounds().toJSON()
-      })
-    )
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+  dispatch
 });
 
-// Create Enhancer
-const enhancer = compose<ComponentProps, PublicProps>(
-  setDisplayName('EventMapContainer'),
-  withProps({
-    mapRef: React.createRef<GoogleMap>()
-  }),
-  pure,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    mergeProps
-  )
-);
+const mergeProps = (
+  { eventGroupListByPosition, autoFetchingMode }: StateProps,
+  { dispatch }: DispatchProps,
+  ownProps: OwnProps
+): MergedProps => ({
+  ...ownProps,
+  eventGroupListByPosition,
+  onIdle: (mapZoomLevel: number, bounds: google.maps.LatLngBounds) => {
+    dispatch(appActions.setMapZoomLevel({ mapZoomLevel }));
+    if (bounds) {
+      dispatch(
+        tennisEventsActions.setFetchingParams({ bounds: bounds.toJSON() })
+      );
+    }
+    autoFetchingMode &&
+      dispatch(
+        tennisEventsActions.requestFetchTennisEvents({
+          fetchingDelay: DELAY_AMOUNT_FOR_FETCHING_START
+        })
+      );
+  },
+  onBoundsChanged: () => {
+    dispatch(tennisEventsActions.cancelFetchingTennisEvents());
+  }
+});
 
-// Exports
-export type EventMapProps = PublicProps;
-export default enhancer(EventMap);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(InnerComponent);
