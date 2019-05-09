@@ -3,9 +3,12 @@ import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import reduxSaga from 'redux-saga';
 import { rootReducer, rootSaga } from './ducks';
+import { tennisEventsActions } from './ducks/TennisEvents';
 
 export function configureStore() {
-  const composeEnhancers = composeWithDevTools({});
+  const composeEnhancers = composeWithDevTools({
+    actionsBlacklist: [tennisEventsActions.cancelFetchingTennisEvents.type]
+  });
   const sagaMiddleware = reduxSaga();
   // const logger = createLogger({
   //   diff: true,
