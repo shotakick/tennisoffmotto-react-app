@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { fork } from 'redux-saga/effects';
 
-import { AppState, appStateReducer } from './App';
+import appReducer, { AppState } from './App';
 import {
   tennisEventsReducer,
   tennisEventsSaga,
@@ -16,7 +16,7 @@ export interface ReduxRootState {
 
 // root reducer
 export const rootReducer = combineReducers<ReduxRootState>({
-  app: appStateReducer,
+  app: appReducer,
   tennisEvents: tennisEventsReducer
 });
 export default rootReducer;

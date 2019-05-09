@@ -1,22 +1,27 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
-import { actionCreators } from './actions';
+import { appActions as actions } from './actions';
 
 export type AppState = {
   autoFetchingMode: boolean;
+  mapZoomLevel: number;
 };
 
 const initialState: AppState = {
-  autoFetchingMode: true
+  autoFetchingMode: true,
+  mapZoomLevel: 1
 };
 
-export const appStateReducer = reducerWithInitialState<AppState>(initialState)
-  .case(actionCreators.setAutoFetchingMode, (state, { autoFetchingMode }) => ({
+export default reducerWithInitialState<AppState>(initialState)
+  .case(actions.setAutoFetchingMode, (state, { autoFetchingMode }) => ({
     ...state,
     autoFetchingMode
   }))
-  .case(actionCreators.toggleAutoFetchingMode, state => ({
+  .case(actions.toggleAutoFetchingMode, state => ({
     ...state,
     autoFetchingMode: !state.autoFetchingMode
   }))
+  .case(actions.setMapZoomLevel, (state, { mapZoomLevel }) => ({
+    ...state,
+    mapZoomLevel
+  }))
   .build();
-export default appStateReducer;
