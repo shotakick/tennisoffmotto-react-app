@@ -52,7 +52,7 @@ const attributesToRetrieve: (keyof TennisEventInfo)[] = [
   'limitDate',
   'capacity',
   'courtCount',
-  'courtType'
+  'courtType',
 ];
 
 const restrictSearchableAttributes: (keyof TennisEventAllInfo)[] = [
@@ -60,7 +60,7 @@ const restrictSearchableAttributes: (keyof TennisEventAllInfo)[] = [
   'organizer',
   'detail',
   'courtType',
-  'placeName'
+  'placeName',
 ];
 
 export interface FetchedResult {
@@ -101,7 +101,7 @@ export async function fetchEvents(
     restrictSearchableAttributes,
     query: params.keyword || '',
     insideBoundingBox,
-    filters
+    filters,
   });
 
   return { events: hits, hitsCount: nbHits };
@@ -136,7 +136,7 @@ function toAlgoliaFilters(filters: FetchingFilters) {
 function toDateRangeFilter(range: Range<Date>) {
   return toNumericRangeFilter('dateTimestamp', {
     lowerBound: range.lowerBound ? range.lowerBound.getTime() : 0,
-    upperBound: range.upperBound ? range.upperBound.getTime() : undefined
+    upperBound: range.upperBound ? range.upperBound.getTime() : undefined,
   });
 }
 
@@ -145,7 +145,7 @@ function toNumericRangeFilter(
     TennisEventAllInfo,
     'dateTimestamp' | 'startHour' | 'timespan' | 'capacity' | 'courtCount'
   >,
-  { lowerBound, upperBound }: Range<number>
+  { lowerBound, upperBound }: Range<number>,
 ) {
   if (!lowerBound) return `(${attr} <= ${upperBound})`;
   if (!upperBound) return `(${attr} >= ${lowerBound})`;

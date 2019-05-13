@@ -17,28 +17,28 @@ export const initialMapOptions: GoogleMapProps = {
     styles: [
       {
         elementType: 'labels.icon',
-        stylers: [{ visibility: 'off' }]
+        stylers: [{ visibility: 'off' }],
       },
       {
         featureType: 'poi.park',
-        stylers: [{ visibility: 'on' }]
+        stylers: [{ visibility: 'on' }],
       },
       {
         featureType: 'water',
-        stylers: [{ visibility: 'on' }]
+        stylers: [{ visibility: 'on' }],
       },
       {
         featureType: 'poi.sports_complex',
-        stylers: [{ visibility: 'on' }]
+        stylers: [{ visibility: 'on' }],
       },
       {
         featureType: 'transit.station',
-        stylers: [{ visibility: 'on' }]
+        stylers: [{ visibility: 'on' }],
       },
       {
         featureType: 'administrative.locality',
-        stylers: [{ visibility: 'on' }]
-      }
-    ]
-  }
+        stylers: [{ visibility: 'on' }],
+      },
+    ],
+  },
 };

@@ -24,9 +24,7 @@ export default class MapControl extends React.Component<Props> {
   }
 
   componentWillUnmount() {
-    const divIndex = this.map.controls[this.props.position]
-      .getArray()
-      .indexOf(this.controlDiv);
+    const divIndex = this.map.controls[this.props.position].getArray().indexOf(this.controlDiv);
     this.map.controls[this.props.position].removeAt(divIndex);
   }
 

@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  Button,
-  ButtonGroupProps,
-  ButtonProps,
-  Header,
-  Icon,
-  Segment
-} from 'semantic-ui-react';
+import { Button, ButtonGroupProps, ButtonProps, Header, Icon, Segment } from 'semantic-ui-react';
 import { TennisEventInfo } from '../../client/TennisEvents';
 import EventFilterForm from './EventFilterForm';
 import EventList from './EventList';
@@ -42,19 +35,9 @@ const ModeSelector: React.FC<
 const ModeSelectButton: React.FC<
   { mode: Mode; handleSelect: (mode: Mode) => void } & ButtonProps
 > = ({ mode, handleSelect, ...props }) => {
-  const onClick = React.useCallback(() => handleSelect(mode), [
-    mode,
-    handleSelect
-  ]);
+  const onClick = React.useCallback(() => handleSelect(mode), [mode, handleSelect]);
   return (
-    <Button
-      toggle={true}
-      compact={true}
-      basic={true}
-      content={mode}
-      onClick={onClick}
-      {...props}
-    />
+    <Button toggle={true} compact={true} basic={true} content={mode} onClick={onClick} {...props} />
   );
 };
 
@@ -68,7 +51,7 @@ export interface Props {
 
 enum Mode {
   FILTERS = 'Filters',
-  HITS = 'Hits'
+  HITS = 'Hits',
 }
 
 // TODO 気が向いたらTab部品で作り直す
@@ -96,11 +79,7 @@ export const AppSidebar: React.FC<Props> = props => {
         content={currentMode === Mode.FILTERS ? '検索条件設定' : '検索結果一覧'}
       />
       <Segment className={styles.Body} attached={true}>
-        {currentMode === Mode.FILTERS ? (
-          <EventFilterForm />
-        ) : (
-          <EventList events={props.events} />
-        )}
+        {currentMode === Mode.FILTERS ? <EventFilterForm /> : <EventList events={props.events} />}
       </Segment>
     </div>
   );

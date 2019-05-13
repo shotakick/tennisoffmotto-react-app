@@ -14,30 +14,30 @@ const initialState: TennisEventsState = {
   result: { events: [], hitsCount: 0 },
   fetchingParams: { keyword: '' },
   viewingFilter: {},
-  isFetching: false
+  isFetching: false,
 };
 
 export default reducerWithInitialState<TennisEventsState>(initialState)
   .case(actions.asyncFetchTennisEvents.started, (state, payload) => ({
     ...state,
     fetchingParams: payload,
-    isFetching: true
+    isFetching: true,
   }))
   .case(actions.asyncFetchTennisEvents.done, (state, payload) => ({
     ...state,
     result: payload.result,
-    isFetching: false
+    isFetching: false,
   }))
   .case(actions.asyncFetchTennisEvents.failed, (state, payload) => ({
     ...state,
-    isFetching: false
+    isFetching: false,
   }))
   .case(actions.setFetchingParams, (state, payload) => ({
     ...state,
-    fetchingParams: { ...state.fetchingParams, ...payload }
+    fetchingParams: { ...state.fetchingParams, ...payload },
   }))
   .case(actions.setViewingFilter, (state, payload) => ({
     ...state,
-    viewingFilter: payload
+    viewingFilter: payload,
   }))
   .build();

@@ -8,20 +8,20 @@ export type AppState = {
 
 const initialState: AppState = {
   autoFetchingMode: true,
-  mapZoomLevel: 1
+  mapZoomLevel: 1,
 };
 
 export default reducerWithInitialState<AppState>(initialState)
   .case(actions.setAutoFetchingMode, (state, { autoFetchingMode }) => ({
     ...state,
-    autoFetchingMode
+    autoFetchingMode,
   }))
   .case(actions.toggleAutoFetchingMode, state => ({
     ...state,
-    autoFetchingMode: !state.autoFetchingMode
+    autoFetchingMode: !state.autoFetchingMode,
   }))
   .case(actions.setMapZoomLevel, (state, { mapZoomLevel }) => ({
     ...state,
-    mapZoomLevel
+    mapZoomLevel,
   }))
   .build();

@@ -10,12 +10,12 @@ type OwnProps = InnerProps;
 const mapStateToProps = (state: ReduxRootState): StateProps => ({
   hitsCount: state.tennisEvents.result.hitsCount,
   events: state.tennisEvents.result.events,
-  isFetching: state.tennisEvents.isFetching
+  isFetching: state.tennisEvents.isFetching,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({});
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(InnerComponent);

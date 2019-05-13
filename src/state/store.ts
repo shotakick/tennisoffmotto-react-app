@@ -7,7 +7,7 @@ import { tennisEventsActions } from './ducks/TennisEvents';
 
 export function configureStore() {
   const composeEnhancers = composeWithDevTools({
-    actionsBlacklist: [tennisEventsActions.cancelFetchingTennisEvents.type]
+    actionsBlacklist: [tennisEventsActions.cancelFetchingTennisEvents.type],
   });
   const sagaMiddleware = reduxSaga();
   // const logger = createLogger({
@@ -18,7 +18,7 @@ export function configureStore() {
   const store = createStore(
     rootReducer,
     // composeEnhancers(applyMiddleware(sagaMiddleware, logger))
-    composeEnhancers(applyMiddleware(sagaMiddleware))
+    composeEnhancers(applyMiddleware(sagaMiddleware)),
   );
 
   sagaMiddleware.run(rootSaga);

@@ -18,14 +18,15 @@
     "prettier": [
       true,
       {
-        "singleQuote": true
-        // "trailingComma": "all"
+        "singleQuote": true,
+        "trailingComma": "all",
+        "printWidth": 100
       }
     ],
     // This rule is here for now because of https://github.com/palantir/tslint-react/issues/120
     "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case"],
     "ordered-imports": true,
-    // "trailing-comma": false,
+    "trailing-comma": false,
     "object-shorthand-properties-first":false,
     "no-boolean-literal-compare": false,
     "react-hooks-nesting": "error",

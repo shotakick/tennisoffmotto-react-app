@@ -1,15 +1,7 @@
 import isMobile from 'ismobilejs';
 import * as React from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import {
-  Button,
-  Dropdown,
-  DropdownItemProps,
-  Form,
-  Input,
-  Label,
-  Select
-} from 'semantic-ui-react';
+import { Button, DropdownItemProps, Form, Input, Select } from 'semantic-ui-react';
 import CustomDatePicker from './common/CustomDatePicker';
 
 export interface EventFilterFormProps {}
@@ -29,30 +21,23 @@ export interface EventFilterFormProps {}
 // };
 
 // 8時台～20時台まで
-const hourItems: DropdownItemProps[] = Array.from(
-  Array(24 - 8 - 4).keys(),
-  i => ({
-    key: i,
-    value: i + 8,
-    text: `00${i + 8} 時台`.slice(-5)
-  })
-);
+const hourItems: DropdownItemProps[] = Array.from(Array(24 - 8 - 4).keys(), i => ({
+  key: i,
+  value: i + 8,
+  text: `00${i + 8} 時台`.slice(-5),
+}));
 // 1時間～6時間まで
 const hoursItems: DropdownItemProps[] = Array.from(Array(6).keys(), i => ({
   key: i,
   value: i + 1,
-  text: `00${i + 1} 時間`.slice(-5)
+  text: `00${i + 1} 時間`.slice(-5),
 }));
 
 export const EventFilterForm: React.FC<EventFilterFormProps> = () => {
   const [startDate, setStartDate] = React.useState<Date>();
-  const handleChangeStartDate = React.useCallback(date => setStartDate(date), [
-    setStartDate
-  ]);
+  const handleChangeStartDate = React.useCallback(date => setStartDate(date), [setStartDate]);
   const [endDate, setEndDate] = React.useState<Date>();
-  const handleChangeEndDate = React.useCallback(date => setEndDate(date), [
-    setEndDate
-  ]);
+  const handleChangeEndDate = React.useCallback(date => setEndDate(date), [setEndDate]);
 
   return (
     <div>

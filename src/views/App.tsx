@@ -18,7 +18,7 @@ class App extends React.Component<{}, AppState> {
     this.state = {
       initialMapOptions,
       maxMarkerVisibleCount: 1000,
-      isSidebarOpened: true
+      isSidebarOpened: true,
     };
 
     if (navigator.geolocation) {
@@ -41,15 +41,8 @@ class App extends React.Component<{}, AppState> {
             maxMarkerVisibleCount={this.state.maxMarkerVisibleCount}
           />
         </div>
-        <div
-          className={
-            this.state.isSidebarOpened ? 'App-sidebar' : 'App-sidebar-hidden'
-          }
-        >
-          <AppSidebar
-            isOpened={this.state.isSidebarOpened}
-            toggleOpen={this.toggleSidebarOpen}
-          />
+        <div className={this.state.isSidebarOpened ? 'App-sidebar' : 'App-sidebar-hidden'}>
+          <AppSidebar isOpened={this.state.isSidebarOpened} toggleOpen={this.toggleSidebarOpen} />
         </div>
         <footer className="App-footer" />
       </div>
@@ -62,9 +55,9 @@ class App extends React.Component<{}, AppState> {
         ...this.state.initialMapOptions,
         defaultCenter: {
           lat: pos.coords.latitude,
-          lng: pos.coords.longitude
-        }
-      }
+          lng: pos.coords.longitude,
+        },
+      },
     });
   };
 

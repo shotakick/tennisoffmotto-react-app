@@ -16,12 +16,9 @@ export const EventMapMarker: React.FC<EventMapMarkerProps> = ({
   key_,
   events,
   handleClick,
-  children
+  children,
 }) => {
-  const onClick = React.useCallback(() => handleClick(key_), [
-    key_,
-    handleClick
-  ]);
+  const onClick = React.useCallback(() => handleClick(key_), [key_, handleClick]);
 
   return (
     <Marker

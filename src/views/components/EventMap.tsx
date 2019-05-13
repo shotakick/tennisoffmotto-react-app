@@ -7,17 +7,14 @@ import {
   withGoogleMap,
   WithGoogleMapProps,
   withScriptjs,
-  WithScriptjsProps
+  WithScriptjsProps,
 } from 'react-google-maps';
 import { compose, setDisplayName, withProps } from 'recompose';
 import { Loader } from 'semantic-ui-react';
 import { TennisEventInfo } from '../../client/TennisEvents';
 import { Omit } from '../../utils/TypeUtils';
 import { usePresentPosition } from '../../views/hooks/common/geolocation';
-import {
-  useEventInfoWindowControl,
-  usePanTo
-} from '../../views/hooks/EventMap';
+import { useEventInfoWindowControl, usePanTo } from '../../views/hooks/EventMap';
 import EventFetchButton from '../containers/EventFetchButton';
 import AlgoliaLogo from './common/AlgoliaLogo';
 import MapControl from './common/MapControl';
@@ -30,18 +27,10 @@ export type Props = Omit<GoogleMapProps, 'onIdle'> & {
   onIdle(zoomLevel: number, bounds: google.maps.LatLngBounds): void;
 };
 
-const EventMap: React.FC<Props> = ({
-  eventGroupListByPosition,
-  onIdle,
-  ...mapProps
-}) => {
+const EventMap: React.FC<Props> = ({ eventGroupListByPosition, onIdle, ...mapProps }) => {
   const mapRef = React.useRef<GoogleMap>(null);
   const presentPosition = usePresentPosition();
-  const {
-    openedMarkerKey,
-    closeWindow,
-    toggleWindow
-  } = useEventInfoWindowControl();
+  const { openedMarkerKey, closeWindow, toggleWindow } = useEventInfoWindowControl();
   const panToPresentLocation = usePanTo(mapRef.current, presentPosition);
   const handleIdle = React.useCallback(() => {
     if (mapRef.current) {
@@ -50,12 +39,7 @@ const EventMap: React.FC<Props> = ({
   }, [onIdle, mapRef.current]);
 
   return (
-    <GoogleMap
-      ref={mapRef}
-      onIdle={handleIdle}
-      onClick={closeWindow}
-      {...mapProps}
-    >
+    <GoogleMap ref={mapRef} onIdle={handleIdle} onClick={closeWindow} {...mapProps}>
       {presentPosition && <Marker position={presentPosition} />}
       {Object.keys(eventGroupListByPosition).map(key => (
         <EventMapMarker
@@ -92,16 +76,16 @@ const initialGoogleMapProps: WithScriptjsProps | WithGoogleMapProps = {
   }`,
   loadingElement: React.createElement('div'),
   containerElement: React.createElement('div', {
-    style: { height: '100%' }
+    style: { height: '100%' },
   }),
   mapElement: React.createElement('div', {
-    style: { height: '100%' }
-  })
+    style: { height: '100%' },
+  }),
 };
 
 export default compose<Props, Props>(
   setDisplayName('EventMapComponent'),
   withProps(initialGoogleMapProps),
   withScriptjs,
-  withGoogleMap
+  withGoogleMap,
 )(EventMap);

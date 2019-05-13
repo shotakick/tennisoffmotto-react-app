@@ -1,10 +1,7 @@
 import ja from 'date-fns/locale/ja';
 import isMobile from 'ismobilejs';
 import * as React from 'react';
-import ReactDatePicker, {
-  ReactDatePickerProps,
-  registerLocale
-} from 'react-datepicker';
+import ReactDatePicker, { ReactDatePickerProps, registerLocale } from 'react-datepicker';
 import ReactDOM from 'react-dom';
 import { Input, InputProps } from 'semantic-ui-react';
 import './CustomDatePicker.scss';
@@ -23,13 +20,7 @@ const ReadOnlyInput = React.forwardRef<Input, InputProps>((props, ref) => {
   const setReadOnly = React.useCallback(() => setState(true), [setState]);
   const unsetReadOnly = React.useCallback(() => setState(false), [setState]);
   return (
-    <Input
-      {...props}
-      ref={ref}
-      onFocus={setReadOnly}
-      onBlur={unsetReadOnly}
-      readOnly={state}
-    />
+    <Input {...props} ref={ref} onFocus={setReadOnly} onBlur={unsetReadOnly} readOnly={state} />
   );
 });
 

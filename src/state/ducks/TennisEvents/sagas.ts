@@ -1,34 +1,18 @@
-import {
-  call,
-  delay,
-  put,
-  race,
-  select,
-  take,
-  takeLatest
-} from 'redux-saga/effects';
+import { call, delay, put, race, select, take, takeLatest } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import * as Api from '../../../client/TennisEvents';
-import {
-  RequestFetchTennisEventsPayload,
-  tennisEventsActions as actions
-} from './actions';
+import { RequestFetchTennisEventsPayload, tennisEventsActions as actions } from './actions';
 import { selectFetchingParams } from './selectors';
 
 export function* tennisEventsSaga() {
-  yield takeLatest(
-    actions.requestFetchTennisEvents.type,
-    handleFetchEventsRequest
-  );
+  yield takeLatest(actions.requestFetchTennisEvents.type, handleFetchEventsRequest);
 }
 
-function* handleFetchEventsRequest(
-  action: Action<RequestFetchTennisEventsPayload>
-) {
+function* handleFetchEventsRequest(action: Action<RequestFetchTennisEventsPayload>) {
   yield race({
     task: call(fetchEvents, action.payload),
     cancel: take(actions.cancelFetchingTennisEvents.type),
-    cancelByChangeParams: take(actions.setFetchingParams.type)
+    cancelByChangeParams: take(actions.setFetchingParams.type),
   });
 }
 
@@ -42,23 +26,20 @@ function* fetchEvents(params: RequestFetchTennisEventsPayload) {
   yield put(actions.asyncFetchTennisEvents.started(fetchingParams));
 
   try {
-    const result: Api.FetchedResult = yield call(
-      Api.fetchEvents,
-      fetchingParams
-    );
+    const result: Api.FetchedResult = yield call(Api.fetchEvents, fetchingParams);
 
     yield put(
       actions.asyncFetchTennisEvents.done({
         params: fetchingParams,
-        result
-      })
+        result,
+      }),
     );
   } catch (error) {
     yield put(
       actions.asyncFetchTennisEvents.failed({
         params: fetchingParams,
-        error
-      })
+        error,
+      }),
     );
   }
 }

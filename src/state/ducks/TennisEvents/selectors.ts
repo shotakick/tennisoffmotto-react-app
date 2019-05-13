@@ -17,7 +17,7 @@ export const getFilterringEvents = createSelector<
 >(
   state => state.tennisEvents.result.events,
   state => state.tennisEvents.viewingFilter,
-  (events, filter) => events.filter(e => isMatchedFilter(e, filter))
+  (events, filter) => events.filter(e => isMatchedFilter(e, filter)),
 );
 
 export type GroupedEvents = { [index: string]: TennisEventInfo[] };
@@ -39,9 +39,9 @@ export const getGroupedEventsByNearyPoint = createSelector<
     return toGroupObjectsByKey(
       events,
       '_geoloc',
-      ({ lat, lng }) => `(${lat.toFixed(n)},${lng.toFixed(n)})`
+      ({ lat, lng }) => `(${lat.toFixed(n)},${lng.toFixed(n)})`,
     );
-  }
+  },
 );
 
 export const getGroupedEventsByPointWithLimit = createSelector<
@@ -59,15 +59,12 @@ export const getGroupedEventsByPointWithLimit = createSelector<
       .slice(0, maxCount)
       .forEach(key => (newList[key] = srcList[key]));
     return newList;
-  }
+  },
 );
 
 // Sub functions for selector
 // 将来対応 とりあえずの適当実装
-function isMatchedFilter(
-  event: TennisEventInfo,
-  filter: ViewingFilter
-): boolean {
+function isMatchedFilter(event: TennisEventInfo, filter: ViewingFilter): boolean {
   if (filter.sex && filter.sex !== event.sex) return false;
   if (filter.prefecture && filter.prefecture !== event.prefecture) return false;
   return true;
