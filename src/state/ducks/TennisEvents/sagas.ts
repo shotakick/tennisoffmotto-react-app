@@ -1,6 +1,7 @@
 import { call, delay, put, race, select, take, takeLatest } from 'redux-saga/effects';
 import { Action } from 'typescript-fsa';
 import * as Api from '../../../client/TennisEvents';
+import { isAuthenticated } from '../Auth';
 import { RequestFetchTennisEventsPayload, tennisEventsActions as actions } from './actions';
 import { selectFetchingParams } from './selectors';
 
@@ -20,6 +21,8 @@ function* fetchEvents(params: RequestFetchTennisEventsPayload) {
   if (params.fetchingDelay) {
     yield delay(params.fetchingDelay);
   }
+
+  if (!(yield select(isAuthenticated))) return;
 
   const fetchingParams = yield select(selectFetchingParams);
 

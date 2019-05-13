@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { GoogleMapProps } from 'react-google-maps';
 import './App.scss';
-import AppHeader from './components/AppHeader';
+import AppHeader from './containers/AppHeader';
 import AppSidebar from './containers/AppSidebar';
+import Auth from './containers/Auth';
 import EventMap from './containers/EventMap';
 import { initialMapOptions } from './ini/EventMap';
 
@@ -18,7 +19,7 @@ class App extends React.Component<{}, AppState> {
     this.state = {
       initialMapOptions,
       maxMarkerVisibleCount: 1000,
-      isSidebarOpened: true,
+      isSidebarOpened: false,
     };
 
     if (navigator.geolocation) {
@@ -29,6 +30,7 @@ class App extends React.Component<{}, AppState> {
   public render() {
     return (
       <div className="App">
+        <Auth />
         <header className="App-header">
           <AppHeader
             isSidebarOpened={this.state.isSidebarOpened}

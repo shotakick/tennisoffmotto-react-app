@@ -25,9 +25,13 @@ import EventMapMarker from './EventMapMarker';
 export type Props = Omit<GoogleMapProps, 'onIdle'> & {
   eventGroupListByPosition: { [key: string]: TennisEventInfo[] };
   onIdle(zoomLevel: number, bounds: google.maps.LatLngBounds): void;
+  isAuthenticated: boolean;
+  onLogin(): void;
 };
 
-const EventMap: React.FC<Props> = ({ eventGroupListByPosition, onIdle, ...mapProps }) => {
+const EventMap: React.FC<Props> = props => {
+  const { eventGroupListByPosition, onIdle, isAuthenticated, onLogin, ...mapProps } = props;
+
   const mapRef = React.useRef<GoogleMap>(null);
   const presentPosition = usePresentPosition();
   const { openedMarkerKey, closeWindow, toggleWindow } = useEventInfoWindowControl();
@@ -37,6 +41,10 @@ const EventMap: React.FC<Props> = ({ eventGroupListByPosition, onIdle, ...mapPro
       onIdle(mapRef.current.getZoom(), mapRef.current.getBounds());
     }
   }, [onIdle, mapRef.current]);
+
+  React.useEffect(() => {
+    if (isAuthenticated) onLogin();
+  }, [isAuthenticated]);
 
   return (
     <GoogleMap ref={mapRef} onIdle={handleIdle} onClick={closeWindow} {...mapProps}>

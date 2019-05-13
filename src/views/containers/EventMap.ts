@@ -10,9 +10,10 @@ import InnerComponent, { Props as InnerProps } from '../components/EventMap';
 
 const DELAY_AMOUNT_FOR_FETCHING_START = 200;
 
-type StateProps = Pick<InnerProps, 'eventGroupListByPosition'> & Pick<AppState, 'autoFetchingMode'>;
+type StateProps = Pick<InnerProps, 'eventGroupListByPosition' | 'isAuthenticated'> &
+  Pick<AppState, 'autoFetchingMode'>;
 type DispatchProps = { dispatch: Dispatch };
-type MergedProps = Pick<InnerProps, 'eventGroupListByPosition' | 'onIdle' | 'onBoundsChanged'>;
+type MergedProps = StateProps & Pick<InnerProps, 'onIdle' | 'onLogin' | 'onBoundsChanged'>;
 type OwnProps = InnerProps & {
   maxMarkerVisibleCount: number;
 };
@@ -25,6 +26,7 @@ const mapStateToProps = (
     maxCount: maxMarkerVisibleCount,
     zoomLevel: state.app.mapZoomLevel,
   }),
+  isAuthenticated: !!state.auth.isAuthenticated,
   autoFetchingMode: state.app.autoFetchingMode,
 });
 
@@ -33,18 +35,18 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
 });
 
 const mergeProps = (
-  { eventGroupListByPosition, autoFetchingMode }: StateProps,
+  stateProps: StateProps,
   { dispatch }: DispatchProps,
   ownProps: OwnProps,
 ): MergedProps => ({
+  ...stateProps,
   ...ownProps,
-  eventGroupListByPosition,
   onIdle: (mapZoomLevel: number, bounds: google.maps.LatLngBounds) => {
     dispatch(appActions.setMapZoomLevel({ mapZoomLevel }));
     if (bounds) {
       dispatch(tennisEventsActions.setFetchingParams({ bounds: bounds.toJSON() }));
     }
-    autoFetchingMode &&
+    stateProps.autoFetchingMode &&
       dispatch(
         tennisEventsActions.requestFetchTennisEvents({
           fetchingDelay: DELAY_AMOUNT_FOR_FETCHING_START,
@@ -53,6 +55,9 @@ const mergeProps = (
   },
   onBoundsChanged: () => {
     dispatch(tennisEventsActions.cancelFetchingTennisEvents());
+  },
+  onLogin: () => {
+    dispatch(tennisEventsActions.requestFetchTennisEvents({}));
   },
 });
 

@@ -43,3 +43,11 @@ $size: calc(18pt + 0.25vw);
   padding: 14px 12px 10px;
   cursor: pointer;
 }
+
+.LoginButton {
+  position: absolute;
+  right: 0;
+  padding: 8px;
+  color: $color;
+  cursor: pointer;
+}

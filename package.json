@@ -8,6 +8,9 @@
     "@types/react": "16.8.13",
     "@types/react-dom": "16.8.4",
     "algoliasearch": "^3.32.1",
+    "firebase": "^6.0.1",
+    "formik": "^1.5.4",
+    "formik-semantic-ui": "^0.9.2",
     "ismobilejs": "^0.5.1",
     "moment": "^2.24.0",
     "react": "^16.8.6",
@@ -25,13 +28,15 @@
     "semantic-ui-react": "^0.86.0",
     "typescript": "3.4.3",
     "typescript-fsa": "^3.0.0-beta-2",
-    "typescript-fsa-reducers": "^1.2.1"
+    "typescript-fsa-reducers": "^1.2.1",
+    "yup": "^0.27.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "predeploy": "npm run build",
     "deploy": "firebase deploy --only hosting",
     "lint": "tslint --project . --fix",
     "stylelint": "stylelint 'src/**/*.scss' --fix"
@@ -54,6 +59,7 @@
     "@types/react-redux": "^7.0.6",
     "@types/recompose": "^0.30.5",
     "@types/redux-logger": "^3.0.7",
+    "@types/yup": "^0.26.13",
     "firebase-tools": "^6.6.0",
     "node-sass": "^4.11.0",
     "prettier": "^1.17.0",

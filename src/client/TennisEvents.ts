@@ -1,5 +1,6 @@
 import { Omit, RequireOne } from '../utils/TypeUtils';
 import Algolia from './Algolia';
+import firebase from './Firebase';
 
 interface TennisEventAllInfo {
   sid: number;
@@ -90,11 +91,13 @@ export type FetchingParams = {
   filters?: FetchingFilters;
 };
 
-export async function fetchEvents(
-  params: FetchingParams
-): Promise<FetchedResult> {
-  const insideBoundingBox =
-    params.bounds && toAlgoliaBoundingBox(params.bounds);
+export async function fetchEvents(params: FetchingParams): Promise<FetchedResult> {
+  // 未ログイン状態ではデータ取得しない
+  if (!firebase.auth().currentUser) {
+    throw new Error('Unauthenticated');
+  }
+
+  const insideBoundingBox = params.bounds && toAlgoliaBoundingBox(params.bounds);
   const filters = params.filters && toAlgoliaFilters(params.filters);
   const { hits, nbHits } = await Algolia.search({
     attributesToRetrieve,
